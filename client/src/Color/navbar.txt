@@ -1,0 +1,3 @@
+S. No.      Color Code
+ 1.         #2f455c
+ 2.         #1dcef9
