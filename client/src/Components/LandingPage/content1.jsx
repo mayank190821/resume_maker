@@ -35,10 +35,10 @@ export default function Content1(){
                         </Typography>
                         <br/>
                         <br/>
-                        <Button style={{fontSize:"20px",fontWeight:"600",color:"white",background:"#ff8400"}}>Create Your Resume</Button>
+                        <Button style={{fontSize:"20px",boxShadow:"0 0 5px 1px #0011118c",fontWeight:"600",color:"white",background:"#ff8400"}}>Create Your Resume</Button>
                     </div>
                     <div style={{overflow:"hidden",width:"50%",display:"flex",alignItems:"center",justifyContent:"center",height:"inherit"}}>
-                        <img src={image} alt="" srcset="" style={{width:"300px",height:"400px"}} />
+                        <img src={image} alt="" srcset="" style={{width:"300px",height:"400px",boxShadow:"0 0 5px 1px #0011118c",borderRadius:"20px"}} />
                     </div>
                 </div>
             </Box>
