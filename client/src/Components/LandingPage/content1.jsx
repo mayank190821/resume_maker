@@ -9,14 +9,14 @@ let colors = ["#be1952","#006370","#00bf7a"];
 let images=[image1,image2,image3];
 export default function Content1(){
     const [color, setColor] = useState(colors[0]);
-    const [image,setImage]= useState(image1[0]);
+    const [image,setImage]= useState(images[0]);
     useEffect(()=>{
         var i = 0;
         const interval = setInterval(()=>{
             setColor(colors[i]);
             setImage(images[i]);
             i=(i+1)%3;
-        }, 2000);
+        }, 3000);
         return (()=>{
             clearInterval(interval);
         })
@@ -26,10 +26,10 @@ export default function Content1(){
             <Box sx={{flexGrow:1,p:"50px", height:"70vh",backgroundColor:color}} style={{ alignItems:"center", display:"flex"}}>
                 <div style={{height:"inherit", display:"flex", color:"white",width:"100%"}}>
                     <div style={{width:"50%", textAlign:"left",padding:"50px"}} >
-                        <Typography variant="h2" style={{fontWeight:"600", margin:"0 0 20px 0"}}>
+                        <Typography variant="h2" style={{fontWeight:"600", margin:"0 0 20px 0",fontFamily:"Libre Baskerville, serif"}}>
                         The CV that gets <br/>the job (done)
                         </Typography>
-                        <Typography variant="h5" style={{fontWeight:"550"}}>
+                        <Typography variant="h5" style={{fontWeight:"550",fontFamily:"Libre Baskerville", fontWeight:"400"}} >
                         Standing out. Professional. Recruiter-approved.<br/>
                         Ready in minutes with our step-by-step builder.
                         </Typography>
