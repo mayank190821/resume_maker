@@ -7,14 +7,13 @@ import { Toolbar } from "@mui/material";
 
 export default function NavBar(){
     return(
-        <Box sx={{flexGrow:1}} >
-            <AppBar style={{ backgroundColor:"#0d4783"}}>
-                <Toolbar>
-
+        <Box>
+            <AppBar position="relative" style={{backgroundColor:"white"}}>
+                <Toolbar style={{color:"#0d4783"}}>
                 <Typography variant="h5" sx= {{flexGrow:1}}>
                     ResumeMaker
                 </Typography>
-                <Button color="inherit" variant="h5"> LogIn </Button>
+                <Button color="#0d4783" variant="h5"> LogIn </Button>
                 </Toolbar>
             </AppBar>
         </Box>
