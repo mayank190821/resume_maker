@@ -9,10 +9,9 @@ import {OpenLoginContext} from "./../context.js";
 export default function NavBar(){
     const {setOpenLogin} = useContext(OpenLoginContext);
     return(
-        <Box sx={{flexGrow:1}} >
-            <AppBar style={{ backgroundColor:"#0d4783"}}>
-                <Toolbar>
-
+        <Box>
+            <AppBar position="relative" style={{backgroundColor:"white"}}>
+                <Toolbar style={{color:"#0d4783"}}>
                 <Typography variant="h5" sx= {{flexGrow:1}}>
                     ResumeMaker
                 </Typography>
