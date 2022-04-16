@@ -23,7 +23,7 @@ export default function Content1(){
     }, []);
     return (
         <>
-            <Box sx={{flexGrow:1,p:"50px", height:"70vh",backgroundColor:color}} style={{ alignItems:"center", display:"flex"}}>
+            <Box sx={{flexGrow:1,p:"50px", height:"70vh",backgroundColor:color, overflow:"hidden"}} style={{ alignItems:"center", display:"flex"}}>
                 <div style={{height:"inherit", display:"flex", color:"white",width:"100%"}}>
                     <div style={{width:"50%", textAlign:"left",padding:"50px"}} >
                         <Typography variant="h2" style={{fontWeight:"600", margin:"0 0 20px 0",fontFamily:"Libre Baskerville, serif"}}>
