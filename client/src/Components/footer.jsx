@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function Footer() {
   return (
-        <div style={{ position:"relative", backgroundColor: 'white',color:"#0d4783", height:"5vh"}}>
+        <div style={{ position:"relative", backgroundColor: 'white',color:"#be1952", height:"5vh"}}>
           <Typography style={{textAlign:"center", verticleAlign:"middle", lineHeight:"2"}}>
             &copy;Resume Maker
           </Typography>

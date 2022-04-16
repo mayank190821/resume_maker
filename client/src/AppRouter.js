@@ -1,25 +1,26 @@
-import {Routes, Route, BrowserRouter} from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Login from "./pages/login";
-import {useState} from "react";
-import {Dialog} from "@mui/material";
-import {OpenLoginContext} from "./context.js";
+import { useState } from "react";
+import { Dialog } from "@mui/material";
+import { OpenLoginContext } from "./context.js";
 import LandingPage from "../src/Components/LandingPage/landingPage.jsx";
+import Signup from "./pages/signup";
 
 function AppRouter() {
   const [open, setOpen] = useState(false);
-  
+  const [loginToggle, setLoginToggle] = useState(true);
   return (
     <BrowserRouter>
-      <OpenLoginContext.Provider value={{openLogin: open, setOpenLogin: setOpen}}>
+      <OpenLoginContext.Provider value={{ openLogin: open, setOpenLogin: setOpen }}>
         <Routes>
-          <Route path="/" element={<LandingPage/>}/>
+          <Route path="/" element={<LandingPage />} />
         </Routes>
         <Dialog
           open={open}
           keepMounted
-          onClose={() => {setOpen(false)}}
-          >
-          <Login setOpen={setOpen}/>
+          onClose={() => { setOpen(false) }}
+        >
+          {(loginToggle) ? <Login setOpen={setOpen} setLoginToggle={setLoginToggle}/> : <Signup setOpen={setOpen} setLoginToggle={setLoginToggle} />}
         </Dialog>
       </OpenLoginContext.Provider>
     </BrowserRouter>

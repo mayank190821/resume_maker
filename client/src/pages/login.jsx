@@ -19,7 +19,7 @@ import {
   VisibilityOff,
 } from "@mui/icons-material";
 
-export default function LoginPage({setOpen}) {
+export default function LoginPage({ setOpen,setLoginToggle }) {
   const [userData, setUserData] = useState({
     email: "",
     password: "",
@@ -41,19 +41,17 @@ export default function LoginPage({setOpen}) {
     event.preventDefault();
     alert("No server exists for now!");
   };
-
   return (
     <Box
       sx={{
         width: "28vw",
         minWidth: "320px",
-        height: "50vh",
         padding: "30px",
         boxShadow: "1px 1px 5px 1px rgba(50,50,50,0.2)",
       }}
     >
       <Box
-        onClick={() => {setOpen(false)}}
+        onClick={() => { setOpen(false) }}
         sx={{
           float: "right",
           cursor: "pointer",
@@ -117,7 +115,7 @@ export default function LoginPage({setOpen}) {
           />
         </FormControl>
         <br />
-        <Box mt={2} sx={{ justifyContent: "center", display: "flex" }}>
+        <Box mt={2} sx={{ justifyContent: "space-around", display: "flex" }}>
           <Button
             type="submit"
             variant="contained"
@@ -126,12 +124,11 @@ export default function LoginPage({setOpen}) {
           >
             Sign In
           </Button>
+          <Button variant="outlined" onClick={()=>{setLoginToggle(false)}}>
+            Sign Up
+          </Button>
         </Box>
-        <Box mt={2} sx={{ width: "96%", textAlign: "right" }}>
-          <Link to={`../signup`} style={{ textDecoration: "none" }}>
-            {"New user? Sign Up"}
-          </Link>
-        </Box>
+
       </form>
       <Box mt={4}>
         <Typography variant="body2" color="textSecondary" align="center">
