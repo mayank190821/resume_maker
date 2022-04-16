@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const Router = require("./routes");
 
 const app = express();
 
@@ -10,6 +11,10 @@ mongoose.connection.on("connected", () => {
 mongoose.connection.on("error", (err) => {
     console.log(err);
 })
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use("/", Router);
 
 app.listen(2000, () => {
     console.log("server started..");
