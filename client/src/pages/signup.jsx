@@ -18,6 +18,7 @@ import {
     Visibility,
     VisibilityOff,
 } from "@mui/icons-material";
+import {SignupAuth} from "../api/auth.api";
 
 
 export default function Signup({ setOpen, setLoginToggle }) {
@@ -44,12 +45,18 @@ export default function Signup({ setOpen, setLoginToggle }) {
         if(!nameRegex.test(userData.name)){
             alert("Please use only Alphabet")
         }
-        if(!emailRegex.test(userData.email)){
+        else if(!emailRegex.test(userData.email)){
             alert("Incorrect Email");
         }
-        if(!passwordRegex.test(userData.password) && !passwordRegex.test(userData.confirmPassword)){
+        else if(!passwordRegex.test(userData.password) && !passwordRegex.test(userData.confirmPassword)){
             alert("Check Password and Confirm Password")
         }
+        else{
+            Signup(userData).then((res)=>{
+                alert(res);
+            });
+        }
+        
     }
     return (
         <Box
