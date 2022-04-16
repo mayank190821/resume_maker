@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-export default mongoose.model("User", mongoose.Schema({
+const UserModel = mongoose.model("User", mongoose.Schema({
     "name": String,
     "email": String,
     "hashedPassword": String,
@@ -34,3 +34,5 @@ export default mongoose.model("User", mongoose.Schema({
         "certificates": [String],
     }
 }))
+
+module.exports = UserModel
