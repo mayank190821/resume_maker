@@ -4,7 +4,6 @@ const UserModel = require("./../models/user.model");
 const signupController = async (req, res) => {
     const user = new UserModel(req.body);
     user.save().then((data) => {
-        console.log(data)
         return res.status(200).json({
             user: data
         })
