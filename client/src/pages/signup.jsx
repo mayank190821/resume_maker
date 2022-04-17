@@ -52,8 +52,8 @@ export default function Signup({ setOpen, setLoginToggle }) {
             alert("Check Password and Confirm Password")
         }
         else{
-            Signup(userData).then((res)=>{
-                alert(res);
+            SignupAuth(userData).then((res)=>{
+                console.log(res);
             });
         }
         
@@ -147,7 +147,7 @@ export default function Signup({ setOpen, setLoginToggle }) {
                 <FormControl variant="outlined" margin="normal" required fullWidth>
                     <InputLabel htmlFor="password">Confirm Password</InputLabel>
                     <OutlinedInput
-                        id="password"
+                        id="Cpassword"
                         variant="outlined"
                         onChange={handleChange("confirmPassword")}
                         value={userData.confirmPassword}

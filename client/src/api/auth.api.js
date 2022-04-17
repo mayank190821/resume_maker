@@ -6,8 +6,9 @@ const SignupAuth = async (data)=>{
             "content-type":"application/json",
         },
         body:JSON.stringify(data)
-    }).then((response)=>{
-        return response.json();
+    }).then(async (response)=>{
+        // console.log()
+        return await response.json();
     }).catch((err)=>{
         return err;
     })
@@ -27,4 +28,4 @@ const LoginAuth=async (data)=>{
     })
 }
 
-export default {SignupAuth,LoginAuth};
+export {SignupAuth,LoginAuth};
