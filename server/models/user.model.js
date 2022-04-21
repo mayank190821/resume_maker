@@ -3,7 +3,10 @@ const crypto = require("crypto");
 
 const user = new mongoose.Schema({
   name: String,
-  email: String,
+  email: {
+    type: String,
+    unique: "Email already exists"
+  },
   hashedPassword: String,
   salt: String,
   resumeData: {
@@ -62,7 +65,7 @@ user.methods = {
     return crypto.createHmac("sha1", this.salt).update(pass).digest("hex");
   },
   authenticate: function(pass){
-      return hashedPassword === this.encryptPassword(pass)
+      return this.hashedPassword === this.encryptPassword(pass)
   }
 };
 
