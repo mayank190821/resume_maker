@@ -1,5 +1,5 @@
 const SignupAuth = async (data)=>{
-    await fetch('/signup',{
+    return await fetch('/signup',{
         method:"POST",
         headers:{
             Accept:"application/json",

@@ -53,10 +53,9 @@ export default function Signup({ setOpen, setLoginToggle }) {
         }
         else{
             SignupAuth(userData).then((res)=>{
-                console.log(res);
+                console.log(res.status);
             });
         }
-        
     }
     return (
         <Box
