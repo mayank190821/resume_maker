@@ -5,6 +5,7 @@ import { Dialog } from "@mui/material";
 import { OpenLoginContext } from "./context.js";
 import LandingPage from "../src/Components/LandingPage/landingPage.jsx";
 import Signup from "./pages/signup";
+import DetailsPage from "./Components/FillResumeDataPage/DetailsPage";
 
 function AppRouter() {
   const [open, setOpen] = useState(false);
@@ -13,6 +14,7 @@ function AppRouter() {
     <BrowserRouter>
       <OpenLoginContext.Provider value={{ openLogin: open, setOpenLogin: setOpen }}>
         <Routes>
+        <Route path="/fillDetails" element={<DetailsPage/>}/>
           <Route path="/" element={<LandingPage />} />
         </Routes>
         <Dialog
