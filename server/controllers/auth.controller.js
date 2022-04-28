@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
 const UserModel = require("./../models/user.model");
 const jwt = require("jsonwebtoken");
+
 require("dotenv").config();
 
 const signupController = async (req, res) => {
@@ -21,7 +21,7 @@ const loginController = async (req, res) => {
         if(user.authenticate(req.body.password)){
             const token = jwt.sign({
                 _id: user._id
-            }, process.env.jwtsecret);
+            }, process.env.jwt_secret, {expiresIn: 3600});
             res.cookie("t", token, {expire: new Date()+9999});
             user.hashedPassword = undefined;
             user.salt = undefined;
@@ -35,4 +35,19 @@ const loginController = async (req, res) => {
     });
 }
 
-module.exports = {signupController, loginController};
+const isAuthenticated = (req, res, next) => {
+    try{
+        let token = jwt.verify(req.header(process.env.token_key), process.env.jwt_secret)
+        if(token){
+            req._id = token._id;
+            next();
+        }
+        else{
+            res.status(401).json({error: "Unauthorised User"});
+        }
+    }catch(err){
+        res.status(401).json({error: "Unauthorised User"});
+    }
+}
+
+module.exports = {signupController, loginController, isAuthenticated};

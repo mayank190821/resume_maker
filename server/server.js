@@ -1,11 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
+
 const Router = require("./routes");
-const UserModel = require("./models/user.model");
+const {isAuthenticated} = require("./controllers/auth.controller.js")
+
+require("dotenv").config();
 
 const app = express();
 
-mongoose.connect("mongodb+srv://resumemaker1408:gQr5GYij32aza4mo@cluster0.vqiao.mongodb.net/resumeMaker?retryWrites=true&w=majority");
+mongoose.connect(process.env.mongo_url);
 mongoose.connection.on("connected", () => {
     console.log("connected to mongo.");
 })
@@ -15,8 +18,9 @@ mongoose.connection.on("error", (err) => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/", Router);
+app.use("/user", isAuthenticated, Router);
+app.use("/auth", Router);
 
-app.listen(2000, () => {
+app.listen(process.env.port, () => {
     console.log("server started..");
 })
