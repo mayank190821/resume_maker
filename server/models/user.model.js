@@ -14,7 +14,10 @@ const user = new mongoose.Schema({
     email: String,
     address: String,
     phone: Number,
-    photo: String,
+    profile: {
+      data: Buffer,
+      contentType: String,
+    },
     links: [String],
     education: [
       {
