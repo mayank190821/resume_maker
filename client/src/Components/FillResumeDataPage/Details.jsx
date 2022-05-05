@@ -5,9 +5,7 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import PersonalDetails from './PersonalDetails';
-import { Routes, Route, Link, BrowserRouter } from 'react-router-dom';
 import EduDetails from './EduDetails';
 import ProDetails from './ProDetails';
 import ExpDetails from './ExpDetails';
@@ -53,24 +51,9 @@ export default function Details() {
     photo: String,
     links: [String],
   });
-  const [eduDetails, setEduDetails] = useState([{
-    degree: String,
-    organisation: String,
-    yearOfCompletion: String,
-  }]);
-  const [expDetails, setExpDetails] = useState([{
-    organisation: String,
-    role: String,
-    description: String,
-    startDate: String,
-    endDate: String,
-  }]);
-  const [proDetails, setProDetails] = useState({
-    name: String,
-    type: String,
-    startDate: String,
-    endDate: String,
-  });
+  const [eduDetails, setEduDetails] = useState([]);
+  const [expDetails, setExpDetails] = useState([]);
+  const [proDetails, setProDetails] = useState([]);
   const [skill, setSkill] = useState([]);
   const [certificates, setCertificates] = useState([]);
 
@@ -91,14 +74,12 @@ export default function Details() {
         certificates: certificates,
       },
     }
-
-
   }
   const ENUM_STATES = {
     0: <PersonalDetails pDetails={pDetails} setPDetails={setPDetails} />,
-    1: <EduDetails />,
-    2: <ExpDetails />,
-    3: <ProDetails />,
+    1: <EduDetails eduDetails={eduDetails} setEduDetails={setEduDetails}/>,
+    2: <ExpDetails expDetails={expDetails} setExpDetails={setExpDetails}/>,
+    3: <ProDetails proDetails={proDetails} setProDetails={setProDetails} />,
     4: <Achievement />
   }
   return (
