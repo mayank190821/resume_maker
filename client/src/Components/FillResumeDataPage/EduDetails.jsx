@@ -58,7 +58,7 @@ function EduDetails({ eduDetails, setEduDetails }) {
     let newTemp = []
     // let val = e.target.name
     for (let i = 0; i < temp.length; i++) {
-      if (temp[i].degree == val) {
+      if (temp[i].degree === val) {
         continue;
       }
       newTemp.push(temp[i])
@@ -76,7 +76,7 @@ function EduDetails({ eduDetails, setEduDetails }) {
     let newTemp = []
     let val = e.target.name
     for (let i = 0; i < temp.length; i++) {
-      if (temp[i].degree == val) {
+      if (temp[i].degree === val) {
         continue;
       }
       newTemp.push(temp[i])
@@ -239,6 +239,7 @@ function EduDetails({ eduDetails, setEduDetails }) {
               variant="contained"
               style={{ backgroundColor: "#006370", width: "fitContent" }}
               onClick={handleAddElement}
+              type="submit"
             >
               <AddRoundedIcon />ADD Education
             </Button>
