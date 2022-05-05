@@ -1,5 +1,5 @@
 const SignupAuth = async (data)=>{
-    return await fetch('/signup',{
+    return await fetch('/auth/signup',{
         method:"POST",
         headers:{
             Accept:"application/json",
@@ -7,7 +7,6 @@ const SignupAuth = async (data)=>{
         },
         body:JSON.stringify(data)
     }).then(async (response)=>{
-        // console.log()
         return await response.json();
     }).catch((err)=>{
         return err;
@@ -15,14 +14,15 @@ const SignupAuth = async (data)=>{
 }
 
 const LoginAuth=async (data)=>{
-    await fetch("/login",{
-        method:"GET",
+    return await fetch("/auth/login",{
+        method:"POST",
         headers:{
             Accept:"application/json",
             "content-type":"application/json"
         },
-    }).then((res)=>{
-        return res.json();
+        body: JSON.stringify(data)
+    }).then(async (res)=>{
+        return await res.json();
     }).catch((err)=>{
         return err;
     })
