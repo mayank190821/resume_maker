@@ -15,26 +15,25 @@ const Router = express();
 // auth routes
 
 // route = "auth/signup"
-// req = {email, password, confirmPassword, ...}
+// req = {email, password, confirmPassword, name}
 // res = confirmation message
 Router.route("/signup").post(signupController);
 
 // route = "auth/login"
-// req = {email, password, ...}
-// res = {token, userData}
+// req = {email, password}
+// res = {userData}
 Router.route("/login").post(loginController);
 
 // user routes
 
 // route = "user/edit_data"
 // req = {resumeData}
-// header = {user_token, contentType="multipart/form-data"}
+// header = {contentType="multipart/form-data"}
 // res = updation confirmation message
 Router.route("/edit_data").put(uploader.single("image"), editResumeData);
 
 // route = "user/resume_data"
 // req = {}
-// header = {user_token}
 // res = {resumeData}
 Router.route("/resume_data").get(getResumeData);
 

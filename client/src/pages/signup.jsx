@@ -18,7 +18,7 @@ import {
     Visibility,
     VisibilityOff,
 } from "@mui/icons-material";
-import {SignupAuth} from "../api/auth.api";
+import {LoginAuth, SignupAuth} from "../api/auth.api";
 
 
 export default function Signup({ setOpen, setLoginToggle }) {
@@ -29,7 +29,7 @@ export default function Signup({ setOpen, setLoginToggle }) {
         confirmPassword: ""
     });
     const [flags, setFlags] = useState({
-        setFlags: false
+        setFlags: false,
     });
     const handleChange = (field) => (event) => {
         setUserData({ ...userData, [field]: event.target.value });
@@ -52,9 +52,26 @@ export default function Signup({ setOpen, setLoginToggle }) {
             alert("Check Password and Confirm Password")
         }
         else{
-            SignupAuth(userData).then((res)=>{
-                console.log(res.status);
-            });
+            SignupAuth(userData).then((status)=>{
+                if(status === 200){
+                    LoginAuth(userData).then((res) => {
+                        if(res.error){
+                            alert(res.error);
+                        }
+                        else{
+                            setLoginToggle(true);
+                            setOpen(false);
+                        }
+                    }).catch(err => {
+                        alert(err.message);
+                    })
+                }
+                else{
+                    alert("Unable to reach server.");
+                }
+            }).catch((err) => {
+                alert(err.message);
+            })
         }
     }
     return (
