@@ -11,7 +11,7 @@ import {
   OutlinedInput,
   InputLabel,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import {LoginAuth} from "./../api/auth.api"; 
 import {
   LockOutlined,
   Close,
@@ -19,7 +19,7 @@ import {
   VisibilityOff,
 } from "@mui/icons-material";
 
-export default function LoginPage({ setOpen,setLoginToggle }) {
+export default function LoginPage({ setOpen, setLoginToggle }) {
   const [userData, setUserData] = useState({
     email: "",
     password: "",
@@ -39,7 +39,17 @@ export default function LoginPage({ setOpen,setLoginToggle }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    alert("No server exists for now!");
+    LoginAuth(userData)
+      .then((res) => {
+        if (res.error) {
+          alert(res.error);
+        } else {
+          setOpen(false);
+        }
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
   };
   return (
     <Box
@@ -51,7 +61,9 @@ export default function LoginPage({ setOpen,setLoginToggle }) {
       }}
     >
       <Box
-        onClick={() => { setOpen(false) }}
+        onClick={() => {
+          setOpen(false);
+        }}
         sx={{
           float: "right",
           cursor: "pointer",
@@ -124,11 +136,15 @@ export default function LoginPage({ setOpen,setLoginToggle }) {
           >
             Sign In
           </Button>
-          <Button variant="outlined" onClick={()=>{setLoginToggle(false)}}>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              setLoginToggle(false);
+            }}
+          >
             Sign Up
           </Button>
         </Box>
-
       </form>
       <Box mt={4}>
         <Typography variant="body2" color="textSecondary" align="center">

@@ -1,5 +1,5 @@
 import React from 'react';
-import Details from './Deatils';
+import Details from './Details';
 import NavBar from '../navbar';
 import styled from 'styled-components';
 function DetailsPage() {

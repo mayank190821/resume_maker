@@ -7,7 +7,7 @@ const signupController = async (req, res) => {
     const user = new UserModel(req.body);
     user.save().then((data) => {
         return res.status(200).json({
-            user: data
+            message: "User added successfully"
         })
     }).catch((err) => {
         res.status(400).json({
@@ -25,7 +25,7 @@ const loginController = async (req, res) => {
             res.cookie("t", token, {expire: new Date()+9999});
             user.hashedPassword = undefined;
             user.salt = undefined;
-            res.status(200).json({token: token, user: user});
+            res.status(200).json({user: user});
         }
         else{
             res.status(403).json({error: "Incorrect username or password!"});
@@ -37,7 +37,7 @@ const loginController = async (req, res) => {
 
 const isAuthenticated = (req, res, next) => {
     try{
-        let token = jwt.verify(req.header(process.env.token_key), process.env.jwt_secret)
+        let token = jwt.verify(req.headers.cookie.substr(2), process.env.jwt_secret)
         if(token){
             req._id = token._id;
             next();
