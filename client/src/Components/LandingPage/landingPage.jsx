@@ -1,11 +1,11 @@
 import React from 'react'
 import NavBar from '../navbar'
 import Footer from '../footer'
-import { Box } from '@mui/material'
 import Content1 from './content1'
+
 export default function LandingPage() {
   return (
-      <div>
+      <div style={{height: "100vh", display: "flex", flexDirection:"column"}}>
         <NavBar />
         <Content1/>
         <Footer />
