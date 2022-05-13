@@ -1,11 +1,11 @@
-import { Box, AppBar, Typography, Toolbar } from '@mui/material'
+import { Typography } from '@mui/material'
 import React from 'react'
 
 export default function Footer() {
   return (
-        <div style={{ position:"relative", backgroundColor: 'white',color:"#be1952", height:"5vh"}}>
-          <Typography style={{textAlign:"center", verticleAlign:"middle", lineHeight:"2"}}>
-            &copy;Resume Maker
+        <div style={{width: "100vw", height: "40px", display: "flex", justifyContent:"center",alignItems: "center",backgroundColor: 'white',color:"#be1952" }}>
+          <Typography style={{textAlign:"center", verticalAlign: "middle"}}>
+            &copy; Resume Maker 2022
           </Typography>
         </div>
   )
