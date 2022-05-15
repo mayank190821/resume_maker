@@ -21,7 +21,7 @@ Router.route("/signup").post(signupController);
 
 // route = "auth/login"
 // req = {email, password}
-// res = {userData}
+// res = {token, userData}
 Router.route("/login").post(loginController);
 
 // user routes
