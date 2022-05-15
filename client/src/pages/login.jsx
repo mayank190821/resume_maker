@@ -45,6 +45,7 @@ export default function LoginPage({ setOpen, setLoginToggle }) {
           alert(res.error);
         } else {
           setOpen(false);
+          sessionStorage.setItem("t", res.token);
         }
       })
       .catch((err) => {

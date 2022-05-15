@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import image1 from "../../images/resume1.webp";
 import image2 from "../../images/resume2.webp";
 import image3 from "../../images/resume4.png";
+import {Link} from "react-router-dom";
 
 let colors = ["#be1952","#006370","#00bf7a"];
 let images=[image1,image2,image3];
@@ -34,7 +35,7 @@ export default function Content1(){
                         </Typography>
                         <br/>
                         <br/>
-                        <Button style={{fontSize:"20px",boxShadow:"0 0 5px 1px #0011118c",fontWeight:"600",color:"white",background:"#ff8400"}}>Create Your Resume</Button>
+                        <Link to="./editData"><Button style={{fontSize:"20px",boxShadow:"0 0 5px 1px #0011118c",fontWeight:"600",color:"white",background:"#ff8400"}}>Create Your Resume</Button></Link>
                     </div>
                     <div style={{overflow:"hidden",width:"50%",display:"flex",alignItems:"center",justifyContent:"center",height:"inherit"}}>
                         <img src={image} alt="" style={{width:"300px",height:"400px",boxShadow:"0 0 5px 1px #0011118c",borderRadius:"20px"}} />

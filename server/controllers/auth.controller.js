@@ -25,7 +25,7 @@ const loginController = async (req, res) => {
             res.cookie("t", token, {expire: new Date()+9999});
             user.hashedPassword = undefined;
             user.salt = undefined;
-            res.status(200).json({user: user});
+            res.status(200).json({token: token, user: user});
         }
         else{
             res.status(403).json({error: "Incorrect username or password!"});

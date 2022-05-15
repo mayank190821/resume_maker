@@ -5,6 +5,7 @@ import { Dialog } from "@mui/material";
 import { OpenLoginContext } from "./context.js";
 import LandingPage from "../src/Components/LandingPage/landingPage.jsx";
 import Signup from "./pages/signup";
+import PrivateRouter from "./pages/privateRouter";
 import DetailsPage from "./Components/FillResumeDataPage/DetailsPage";
 
 function AppRouter() {
@@ -12,17 +13,25 @@ function AppRouter() {
   const [loginToggle, setLoginToggle] = useState(true);
   return (
     <BrowserRouter>
-      <OpenLoginContext.Provider value={{ openLogin: open, setOpenLogin: setOpen }}>
+      <OpenLoginContext.Provider
+        value={{ openLogin: open, setOpenLogin: setOpen }}
+      >
         <Routes>
-        <Route path="/fillDetails" element={<DetailsPage/>}/>
+          <PrivateRouter path="/editData" element={<DetailsPage />} setOpen={setOpen}/>
           <Route path="/" element={<LandingPage />} />
         </Routes>
         <Dialog
           open={open}
           keepMounted
-          onClose={() => { setOpen(false) }}
+          onClose={() => {
+            setOpen(false);
+          }}
         >
-          {(loginToggle) ? <Login setOpen={setOpen} setLoginToggle={setLoginToggle}/> : <Signup setOpen={setOpen} setLoginToggle={setLoginToggle} />}
+          {loginToggle ? (
+            <Login setOpen={setOpen} setLoginToggle={setLoginToggle} />
+          ) : (
+            <Signup setOpen={setOpen} setLoginToggle={setLoginToggle} />
+          )}
         </Dialog>
       </OpenLoginContext.Provider>
     </BrowserRouter>
