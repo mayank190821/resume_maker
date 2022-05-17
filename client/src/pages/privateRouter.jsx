@@ -1,12 +1,9 @@
-import { Navigate, Route } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
-function Auth({children, setOpen}){
+function privateRouter({setOpen, element}){
     const auth = sessionStorage.getItem("t");
     !auth && setOpen(true)
-    return auth ? children:<Navigate to="/"/>
-}
-function privateRouter({setOpen, element, ...rest}){
-    <Route {...rest} element={<Auth setOpen={setOpen}/>}/>
+    return auth ? element:<Navigate to={-1}/>
 }
 
 export default privateRouter;

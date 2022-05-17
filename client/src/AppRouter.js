@@ -17,7 +17,7 @@ function AppRouter() {
         value={{ openLogin: open, setOpenLogin: setOpen }}
       >
         <Routes>
-          <PrivateRouter path="/editData" element={<DetailsPage />} setOpen={setOpen}/>
+          <Route path="/editData" element={<PrivateRouter element={<DetailsPage/>} setOpen={setOpen}/>}/>
           <Route path="/" element={<LandingPage />} />
         </Routes>
         <Dialog

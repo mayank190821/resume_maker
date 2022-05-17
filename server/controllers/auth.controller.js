@@ -22,7 +22,7 @@ const loginController = async (req, res) => {
             const token = jwt.sign({
                 _id: user._id
             }, process.env.jwt_secret, {expiresIn: 3600});
-            res.cookie("t", token, {expire: new Date()+9999});
+            res.cookie("t", token, {expire: new Date()+9999, httpOnly: true, sameSite: true});
             user.hashedPassword = undefined;
             user.salt = undefined;
             res.status(200).json({token: token, user: user});
