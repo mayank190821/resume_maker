@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef } from "react";
 import styledC from "styled-components";
 import EditIcon from "@mui/icons-material/EditOutlined";
 import { TextField, Stack, Badge, Avatar } from "@mui/material";
@@ -6,25 +6,13 @@ import { TextField, Stack, Badge, Avatar } from "@mui/material";
 function PersonalDetails({ pDetails, setPDetails }) {
 
   const inputFile = useRef();
-  const [selected, setSelected] = useState();
-
-  useEffect(() => {
-    if (selected) {
-      const image = URL.createObjectURL(selected);
-      setPDetails({ ...pDetails, photo: image });
-      return () => {
-        URL.revokeObjectURL(image);
-      };
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selected]);
   
   const handleChange = (field) => (e) => {
     setPDetails({ ...pDetails, [field]: e.target.value });
   };
   const handleImage = (e) => {
     if (e.target.files && e.target.files.length !== 0)
-      setSelected(e.target.files[0]);
+      setPDetails({...pDetails, selectedImage: e.target.files[0]});
   };
   
   return (
@@ -56,7 +44,7 @@ function PersonalDetails({ pDetails, setPDetails }) {
             horizontal: "right",
           }}
         >
-          {selected ? (
+          {pDetails.photo ? (
             <img
               src={pDetails.photo}
               style={{

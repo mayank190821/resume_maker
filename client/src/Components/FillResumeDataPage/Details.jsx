@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -7,7 +7,7 @@ import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import PersonalDetails from "./PersonalDetails";
 import EduDetails from "./EduDetails";
-import ProDetails from "./ProDetails";
+import ProDetails from "./ProjectDetails";
 import ExpDetails from "./ExpDetails";
 import Achievement from "./Achievement";
 const steps = [
@@ -63,7 +63,7 @@ export default function Details() {
     email: String,
     address: String,
     phone: Number,
-    photo: String,
+    photo: undefined,
     links: [String],
   });
   const [eduDetails, setEduDetails] = useState([]);
@@ -89,6 +89,16 @@ export default function Details() {
       },
     };
   };
+  useEffect(() => {
+    if (pDetails.selectedImage) {
+      const image = URL.createObjectURL(pDetails.selectedImage);
+      setPDetails({ ...pDetails, photo: image });
+      return () => {
+        URL.revokeObjectURL(image);
+      };
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pDetails.selectedImage]);
   const ENUM_STATES = {
     0: <PersonalDetails pDetails={pDetails} setPDetails={setPDetails} />,
     1: <EduDetails eduDetails={eduDetails} setEduDetails={setEduDetails} />,

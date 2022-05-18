@@ -83,10 +83,9 @@ function ProDetails({ proDetails, setProDetails }) {
     setProDetails(newTemp);
   }
   return (
-    <Stack direction="row" spacing={5} style={{ display: "flex", justifyContent: "space-between" }}>
-      <FormContainer>
-        <form action="" id="form">
-          <h1 style={{ color: "#006370", textAlign: "center" }}>Project Details</h1>
+    <Stack direction="row" spacing={5} style={{ display: "flex", justifyContent: "space-between", height: "85%" }}>
+      <FormContainer action="" id="form">
+          <h1 style={{ color: "#006370", textAlign: "center", margin: "0px" }}>Project Details</h1>
           <Stack spacing={2} >
             <TextField
               variant="outlined"
@@ -120,7 +119,6 @@ function ProDetails({ proDetails, setProDetails }) {
               />
             </Stack>
           </Stack>
-            <br />
           <Stack>
             <TextField
               variant="outlined"
@@ -137,7 +135,6 @@ function ProDetails({ proDetails, setProDetails }) {
               onChange={handleChange('description')}
             />
           </Stack>
-          <br />
           <Stack direction="row" justifyContent="space-between">
             <Stack spacing={2}>
               <Typography>
@@ -235,18 +232,16 @@ function ProDetails({ proDetails, setProDetails }) {
               </Stack>
             </Stack>
           </Stack>
-          <br />
           <Stack spacing={2} style={{ display: "flex", alignItems: "center" }}>
             <Button
               variant="contained"
-              style={{ backgroundColor: "#006370", width: "fitContent" }}
+              style={{ backgroundColor: "#006370"}}
               onClick={handleAddElement}
               type="submit"
             >
               <AddRoundedIcon />ADD Projects
             </Button>
           </Stack>
-        </form>
       </FormContainer >
       <ExtraElements>
         <div className="extraElements">
@@ -277,26 +272,21 @@ function ProDetails({ proDetails, setProDetails }) {
     </Stack>
   )
 }
-const FormContainer = styledC.div`
-display:flex;
-height:fit-content;
-overflow:scroll;
-align-items:center;
-form{
+const FormContainer = styledC.form`
   display:flex;
+  height:85%;
   flex-direction:column;
   border-radius:10px;
-    box-shadow: inset 0 0px 12px 2px #bdc0c1a6;
-    padding:5px 20px;
-    margin-top:50px;
-    margin-left:50px;
-    width:50vw;
-    overflow:scroll;
-    margin-bottom:15px;
-    min-height:60vh;
-    max-height:70vh;
-    align-items:left;
-    }
+  justify-content: space-evenly;
+  box-shadow: 0 0px 22px 2px #bcbcbc77;
+  padding:20px;
+  margin-top:50px;
+  box-sizing: border-box;
+  margin-left:50px;
+  width:50vw;
+  margin-bottom:15px;
+  min-height:60vh;
+  max-height:70vh;
 }
 `;
 const ExtraElements = styledC.div`
