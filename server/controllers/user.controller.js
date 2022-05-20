@@ -3,17 +3,20 @@ const fs = require("fs");
 
 const editResumeData = async (req, res) => {
   try {
-    var img = fs.readFileSync(req.file.path);
-    var encodedString = img.toString("base64");
-    var image = {
-      contentType: req.file.mimetype,
-      data: new Buffer.from(encodedString, "base64"),
-    };
-    fs.rm(req.file.path, () => {});
-    req.body.profile = image;
+    let parsedData = JSON.parse(req.body.data);
+    if(req.file){
+      var img = fs.readFileSync(req.file.path);
+      var encodedString = img.toString("base64");
+      var image = {
+        contentType: req.file.mimetype,
+        data: new Buffer.from(encodedString, "base64"),
+      };
+      fs.rm(req.file.path, () => {});
+      parsedData.profile = image;
+    }
     return await UserModel.updateOne(
       { _id: req._id },
-      { $set: { resumeData: req.body } }
+      { $set: { resumeData: parsedData } }
     )
       .then(() => {
         return res

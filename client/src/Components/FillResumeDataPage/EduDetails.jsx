@@ -37,9 +37,15 @@ function EduDetails({ eduDetails, setEduDetails }) {
     const f = document.getElementById("form");
     f.checkValidity();
     if (f.reportValidity()) {
-      extEle = eduDetails;
-      extEle.push(edu);
-      setEduDetails(extEle);
+      let curEducation = edu
+      curEducation.startDate = curEducation.startMonth+" "+curEducation.startYear
+      curEducation.endDate = curEducation.endMonth+" "+curEducation.endYear
+      delete curEducation.startMonth;
+      delete curEducation.startYear;
+      delete curEducation.endMonth;
+      delete curEducation.endYear;
+
+      setEduDetails([...eduDetails, curEducation]);
       setEdu({
         degree: "",
         organisation: "",
@@ -84,10 +90,9 @@ function EduDetails({ eduDetails, setEduDetails }) {
     setEduDetails(newTemp);
   }
   return (
-    <Stack direction="row" spacing={5} style={{ display: "flex", justifyContent: "space-between" }}>
-      <FormContainer>
-        <form action="" id="form">
-          <h1 style={{ color: "#006370", textAlign: "center" }}>Educational Details</h1>
+    <Stack direction="row" spacing={5} style={{ height: "85%", display: "flex", justifyContent: "space-between" }}>
+      <FormContainer action="" id="form">
+          <h1 style={{ color: "#006370", textAlign: "center", margin: "0px" }}>Educational Details</h1>
           <Stack spacing={2} >
             <TextField
               variant="outlined"
@@ -135,7 +140,6 @@ function EduDetails({ eduDetails, setEduDetails }) {
               />
             </Stack>
           </Stack>
-          <br />
           <Stack direction="row" justifyContent="space-between">
             <Stack spacing={2}>
               <Typography>
@@ -233,18 +237,16 @@ function EduDetails({ eduDetails, setEduDetails }) {
               </Stack>
             </Stack>
           </Stack>
-          <br />
-          <Stack spacing={2} style={{ display: "flex", alignItems: "center" }}>
+          <Stack spacing={2} style={{ display: "flex", alignItems: "center"}}>
             <Button
               variant="contained"
-              style={{ backgroundColor: "#006370", width: "fitContent" }}
+              style={{ backgroundColor: "#006370" }}
               onClick={handleAddElement}
               type="submit"
             >
               <AddRoundedIcon />ADD Education
             </Button>
           </Stack>
-        </form>
       </FormContainer >
       <ExtraElements>
         <div className="extraElements">
@@ -275,26 +277,21 @@ function EduDetails({ eduDetails, setEduDetails }) {
     </Stack>
   )
 }
-const FormContainer = styledC.div`
-display:flex;
-height:fit-content;
-overflow:scroll;
-align-items:center;
-form{
+const FormContainer = styledC.form`
   display:flex;
   flex-direction:column;
+  height: 85%;
   border-radius:10px;
-    box-shadow: inset 0 0px 12px 2px #bdc0c1a6;
-    padding:5px 20px;
-    margin-top:50px;
-    margin-left:50px;
-    width:50vw;
-    overflow:scroll;
-    margin-bottom:15px;
-    min-height:60vh;
-    max-height:70vh;
-    align-items:left;
-    }
+  box-shadow: 0 0px 22px 2px #bcbcbc77;
+  padding:20px;
+  margin-top:50px;
+  margin-left:50px;
+  justify-content: space-evenly;
+  box-sizing: border-box;
+  width:50vw;
+  margin-bottom:15px;
+  min-height:60vh;
+  max-height:70vh;
 }
 `;
 const ExtraElements = styledC.div`
