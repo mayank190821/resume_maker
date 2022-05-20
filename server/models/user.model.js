@@ -23,7 +23,9 @@ const user = new mongoose.Schema({
       {
         degree: String,
         organisation: String,
-        yearOfCompletion: String,
+        city: String,
+        startDate: String,
+        endDate: String,
       },
     ],
     experience: [
@@ -38,12 +40,13 @@ const user = new mongoose.Schema({
     projects: [
       {
         name: String,
-        type: String,
+        description: String,
         startDate: String,
         endDate: String,
       },
     ],
-    skills: [String],
+    techSkills: [String],
+    proSkills: [String],
     certificates: [String],
   },
 });

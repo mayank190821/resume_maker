@@ -7,7 +7,7 @@ const SignupAuth = async (data)=>{
         },
         body:JSON.stringify(data)
     }).then((res)=>{
-        return res.json()
+        return res.status
     }).catch((err)=>{
         return err;
     })

@@ -39,7 +39,7 @@ export default function Signup({ setOpen, setLoginToggle }) {
     }
     const handleSubmit = (event) => {
         event.preventDefault();
-        let nameRegex = /^[a-zA-Z]+$/
+        let nameRegex = /^[a-z A-Z]+$/
         let emailRegex = /^([a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$)/
         let passwordRegex = /^([0-9]*)(?=.*[a-z])(?=.*[!@#$%^&])(?=.*[^a-z0-9A-Z]).{8,20}$/
         if(!nameRegex.test(userData.name)){

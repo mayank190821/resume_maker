@@ -30,7 +30,7 @@ Router.route("/login").post(loginController);
 // req = {resumeData}
 // header = {contentType="multipart/form-data"}
 // res = updation confirmation message
-Router.route("/edit_data").put(uploader.single("image"), editResumeData);
+Router.route("/edit_data").put(uploader.single("file"), editResumeData);
 
 // route = "user/resume_data"
 // req = {}

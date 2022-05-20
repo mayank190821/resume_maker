@@ -37,13 +37,10 @@ export default function Details() {
         sessionStorage.setItem(activeStep, JSON.stringify(expDetails));
         break;
       case 3:
-        sessionStorage.setItem(activeStep, {
-          proj: JSON.stringify(proDetails),
-          skill: JSON.stringify(skill),
-        });
+        sessionStorage.setItem(activeStep, JSON.stringify(proDetails));
         break;
       case 4:
-        sessionStorage.setItem(activeStep, JSON.stringify(certificates));
+        sessionStorage.setItem(activeStep, JSON.stringify(snaDetails));
         break;
       default:
         alert("something get wrong");
@@ -59,35 +56,41 @@ export default function Details() {
     setActiveStep(0);
   };
   const [pDetails, setPDetails] = useState({
-    name: String,
-    email: String,
-    address: String,
-    phone: Number,
-    photo: undefined,
-    links: [String],
+    name: "",
+    email: "",
+    address: "",
+    phone: "",
+    links: [],
   });
   const [eduDetails, setEduDetails] = useState([]);
   const [expDetails, setExpDetails] = useState([]);
   const [proDetails, setProDetails] = useState([]);
-  const [skill, setSkill] = useState([]);
-  const [certificates, setCertificates] = useState([]);
+  const [snaDetails, setSnaDetails] = useState({techSkills: [], proSkills: [], achievements: []});
 
   const handleSubmit = () => {
-    let data = {
-      resumeData: {
-        name: pDetails.name,
-        email: pDetails.email,
-        address: pDetails.address,
-        phone: pDetails.phone,
-        photo: "",
-        links: pDetails.links,
-        education: eduDetails,
-        experience: expDetails,
-        projects: proDetails,
-        skills: skill,
-        certificates: certificates,
-      },
+    let resumeData= {
+      name: pDetails.name,
+      email: pDetails.email,
+      address: pDetails.address,
+      phone: pDetails.phone,
+      links: pDetails.links,
+      education: eduDetails,
+      experience: expDetails,
+      projects: proDetails,
+      techSkills: snaDetails.techSkills,
+      proSkills: snaDetails.proSkills,
+      certificates: snaDetails.achievements,
     };
+    let reqData = new FormData();
+    reqData.append("file", pDetails.selectedImage)
+    reqData.append("data", JSON.stringify(resumeData));
+    fetch("/user/edit_data", {
+      method:"PUT",
+      headers:{
+          Accept:"application/json",
+      },
+      body:reqData
+    })
   };
   useEffect(() => {
     if (pDetails.selectedImage) {
@@ -104,7 +107,7 @@ export default function Details() {
     1: <EduDetails eduDetails={eduDetails} setEduDetails={setEduDetails} />,
     2: <ExpDetails expDetails={expDetails} setExpDetails={setExpDetails} />,
     3: <ProDetails proDetails={proDetails} setProDetails={setProDetails} />,
-    4: <Achievement />,
+    4: <Achievement snaDetails={snaDetails} setSnaDetails={setSnaDetails}/>,
   };
   return (
     <Box sx={{ width: "100%", height: "calc( 100vh - 120px ) !important" }}>
