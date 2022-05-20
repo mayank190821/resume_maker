@@ -11,8 +11,7 @@ function ProDetails({ proDetails, setProDetails }) {
   }
   const [pro, setPro] = useState({
     name: "",
-    type: "",
-    desc:"",
+    description:"",
     startMonth: "January",
     startYear: "1950",
     endMonth: "January",
@@ -37,12 +36,17 @@ function ProDetails({ proDetails, setProDetails }) {
     const f = document.getElementById("form");
     f.checkValidity();
     if (f.reportValidity()) {
-      extEle = proDetails;
-      extEle.push(pro);
-      setProDetails(extEle);
+      let curProject = pro
+      curProject.startDate = curProject.startMonth+" "+curProject.startYear
+      curProject.endDate = curProject.endMonth+" "+curProject.endYear
+      delete curProject.startMonth;
+      delete curProject.startYear;
+      delete curProject.endMonth;
+      delete curProject.endYear;
+
+      setProDetails([...proDetails, curProject]);
       setPro({
         name: "",
-        type: "",
         description:"",
         startMonth: "January",
         startYear: "1950",
@@ -102,22 +106,6 @@ function ProDetails({ proDetails, setProDetails }) {
               onChange={handleChange('name')}
             >
             </TextField>
-            <Stack direction="row" spacing={3}>
-              <TextField
-                variant="outlined"
-                required
-                id="type"
-                label="type"
-                name="type"
-                autoComplete="type"
-                size="small"
-                fullWidth
-                value={pro.type}
-                // autoFocus
-                sx={{ color: "#006370" }}
-                onChange={handleChange('type')}
-              />
-            </Stack>
           </Stack>
           <Stack>
             <TextField

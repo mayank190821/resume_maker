@@ -37,9 +37,15 @@ function EduDetails({ eduDetails, setEduDetails }) {
     const f = document.getElementById("form");
     f.checkValidity();
     if (f.reportValidity()) {
-      extEle = eduDetails;
-      extEle.push(edu);
-      setEduDetails(extEle);
+      let curEducation = edu
+      curEducation.startDate = curEducation.startMonth+" "+curEducation.startYear
+      curEducation.endDate = curEducation.endMonth+" "+curEducation.endYear
+      delete curEducation.startMonth;
+      delete curEducation.startYear;
+      delete curEducation.endMonth;
+      delete curEducation.endYear;
+
+      setEduDetails([...eduDetails, curEducation]);
       setEdu({
         degree: "",
         organisation: "",

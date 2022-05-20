@@ -31,15 +31,20 @@ function ExpDetails({ expDetails, setExpDetails }) {
   for (let i = 1950; i < curYear + 5; i++) {
     years.push(i);
   }
-  let extEle = [];
   const handleAddElement = (e) => {
     e.preventDefault();
     const f = document.getElementById("form");
     f.checkValidity();
     if (f.reportValidity()) {
-      extEle = expDetails;
-      extEle.push(exp);
-      setExpDetails(extEle);
+      let curExperience = exp
+      curExperience.startDate = curExperience.startMonth+" "+curExperience.startYear
+      curExperience.endDate = curExperience.endMonth+" "+curExperience.endYear
+      delete curExperience.startMonth;
+      delete curExperience.startYear;
+      delete curExperience.endMonth;
+      delete curExperience.endYear;
+
+      setExpDetails([...expDetails, curExperience]);
       setExp({
         organisation: "",
         role: "",
