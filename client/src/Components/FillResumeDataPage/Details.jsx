@@ -10,6 +10,9 @@ import EduDetails from "./EduDetails";
 import ProDetails from "./ProjectDetails";
 import ExpDetails from "./ExpDetails";
 import Achievement from "./Achievement";
+import { addResumeData } from "../../../api/user.api";
+import {useNavigate} from "react-router-dom";
+
 const steps = [
   "Personal",
   "Educational",
@@ -19,6 +22,7 @@ const steps = [
 ];
 
 export default function Details() {
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
 
   const isStepOptional = (step) => {
@@ -84,12 +88,13 @@ export default function Details() {
     let reqData = new FormData();
     reqData.append("file", pDetails.selectedImage)
     reqData.append("data", JSON.stringify(resumeData));
-    fetch("/user/edit_data", {
-      method:"PUT",
-      headers:{
-          Accept:"application/json",
-      },
-      body:reqData
+    addResumeData(reqData).then((res) => {
+      if (res.error){
+        alert(res.error);
+      }
+      else{
+        navigate("/makeResume");
+      }
     })
   };
   useEffect(() => {
