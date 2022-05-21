@@ -13,19 +13,6 @@ const SignupAuth = async (data)=>{
     })
 }
 
-// const addResume = async (data) =>{
-//     return await fetch("/user/edit_data", {
-//         method: "PUT",
-//         headers:{
-//             Accept:"application/json",
-//             "content-type":"multipart/form-data"
-//         },
-//         body: JSON.stringify(data)
-//     }).then((res)=>{
-//         console.log(res.json());
-//     })
-// }
-
 const LoginAuth=async (data)=>{
     return await fetch("/auth/login",{
         method:"POST",

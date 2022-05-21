@@ -10,7 +10,7 @@ import EduDetails from "./EduDetails";
 import ProDetails from "./ProjectDetails";
 import ExpDetails from "./ExpDetails";
 import Achievement from "./Achievement";
-import { addResumeData } from "../../../api/user.api";
+import { addResumeData } from "./../../api/user.api";
 import {useNavigate} from "react-router-dom";
 
 const steps = [
