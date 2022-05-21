@@ -29,7 +29,7 @@ export default function Details() {
     return step === 1;
   };
 
-  const handleNext = () => {
+  function saveStates(){
     switch (activeStep) {
       case 0:
         sessionStorage.setItem(activeStep, JSON.stringify(pDetails));
@@ -49,10 +49,14 @@ export default function Details() {
       default:
         alert("something get wrong");
     }
+  }
+  const handleNext = () => {
+    saveStates();
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
   const handleBack = () => {
+    saveStates();
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
@@ -64,7 +68,9 @@ export default function Details() {
     email: "",
     address: "",
     phone: "",
-    links: [],
+    github: "",
+    leetcode: "",
+    portfolio: ""
   });
   const [eduDetails, setEduDetails] = useState([]);
   const [expDetails, setExpDetails] = useState([]);
@@ -72,12 +78,13 @@ export default function Details() {
   const [snaDetails, setSnaDetails] = useState({techSkills: [], proSkills: [], achievements: []});
 
   const handleSubmit = () => {
+    saveStates();
     let resumeData= {
       name: pDetails.name,
       email: pDetails.email,
       address: pDetails.address,
       phone: pDetails.phone,
-      links: pDetails.links,
+      links: [],
       education: eduDetails,
       experience: expDetails,
       projects: proDetails,
@@ -85,6 +92,11 @@ export default function Details() {
       proSkills: snaDetails.proSkills,
       certificates: snaDetails.achievements,
     };
+
+    if(pDetails.github !== "") resumeData.links.push(pDetails.github);
+    if(pDetails.leetcode !== "") resumeData.links.push(pDetails.leetcode);
+    if(pDetails.portfolio !== "") resumeData.links.push(pDetails.portfolio);
+
     let reqData = new FormData();
     reqData.append("file", pDetails.selectedImage)
     reqData.append("data", JSON.stringify(resumeData));

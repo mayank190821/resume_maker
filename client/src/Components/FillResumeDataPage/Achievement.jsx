@@ -35,7 +35,7 @@ function SnaDetails({ snaDetails, setSnaDetails }) {
   return (
     <Stack direction="row" spacing={5} style={stackStyles}>
       <Grid container spacing={5}>
-        <Grid item xs={6} spacing={5} style={gridStyles}>
+        <Grid item xs={6} style={gridStyles}>
           <form>
             <TextField
               variant="outlined"
@@ -138,7 +138,7 @@ function SnaDetails({ snaDetails, setSnaDetails }) {
             })}
           </div>
         </Grid>
-        <Grid item xs={6} spacing={5} style={gridStyles}>
+        <Grid item xs={6} style={gridStyles}>
           <form>
             <TextField
               variant="outlined"
