@@ -19,9 +19,11 @@ import {
     VisibilityOff,
 } from "@mui/icons-material";
 import {LoginAuth, SignupAuth} from "../api/auth.api";
+import { useNavigate } from 'react-router-dom';
 
 
-export default function Signup({ setOpen, setLoginToggle }) {
+export default function Signup({ setOpen, setLoginToggle, setRedirectPath, redirectPath }) {
+    const navigate = useNavigate();
     const [userData, setUserData] = useState({
         name: "",
         email: "",
@@ -61,6 +63,9 @@ export default function Signup({ setOpen, setLoginToggle }) {
                         else{
                             setLoginToggle(true);
                             setOpen(false);
+                            navigate(redirectPath);
+                            setRedirectPath("/");
+                            sessionStorage.setItem("t", res.token);
                         }
                     }).catch(err => {
                         alert(err.message);

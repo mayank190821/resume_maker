@@ -10,14 +10,15 @@ import DetailsPage from "./Components/FillResumeDataPage/DetailsPage";
 
 function AppRouter() {
   const [open, setOpen] = useState(false);
+  const [redirectPath, setRedirectPath] = useState("/");
   const [loginToggle, setLoginToggle] = useState(true);
   return (
     <BrowserRouter>
       <OpenLoginContext.Provider
-        value={{ openLogin: open, setOpenLogin: setOpen }}
+        value={{ openLogin: open, setOpenLogin: setOpen, setRedirectPath : setRedirectPath, redirectPath: redirectPath}}
       >
         <Routes>
-          <Route path="/editData" element={<PrivateRouter element={<DetailsPage/>} setOpen={setOpen}/>}/>
+          <Route path="/editData" element={<PrivateRouter path="/editData" setRedirectPath={setRedirectPath} element={<DetailsPage/>} setOpen={setOpen}/>}/>
           <Route path="/" element={<LandingPage />} />
         </Routes>
         <Dialog
@@ -28,9 +29,9 @@ function AppRouter() {
           }}
         >
           {loginToggle ? (
-            <Login setOpen={setOpen} setLoginToggle={setLoginToggle} />
+            <Login setOpen={setOpen} redirectPath={redirectPath} setRedirectPath={setRedirectPath} setLoginToggle={setLoginToggle} />
           ) : (
-            <Signup setOpen={setOpen} setLoginToggle={setLoginToggle} />
+            <Signup setOpen={setOpen} redirectPath={redirectPath} setRedirectPath={setRedirectPath} setLoginToggle={setLoginToggle} />
           )}
         </Dialog>
       </OpenLoginContext.Provider>

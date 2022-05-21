@@ -1,8 +1,11 @@
 import { Navigate } from "react-router-dom";
 
-function privateRouter({setOpen, element}){
+function privateRouter({setOpen, element, path, setRedirectPath}){
     const auth = sessionStorage.getItem("t");
-    !auth && setOpen(true)
+    if(!auth) {
+        setOpen(true); 
+        setRedirectPath(`${path}`);
+    }
     return auth ? element:<Navigate to={-1}/>
 }
 

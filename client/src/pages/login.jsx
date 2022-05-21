@@ -18,8 +18,11 @@ import {
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
-export default function LoginPage({ setOpen, setLoginToggle }) {
+export default function LoginPage({ setOpen, setLoginToggle, setRedirectPath, redirectPath }) {
+  const navigate = useNavigate();
+
   const [userData, setUserData] = useState({
     email: "",
     password: "",
@@ -45,6 +48,8 @@ export default function LoginPage({ setOpen, setLoginToggle }) {
           alert(res.error);
         } else {
           setOpen(false);
+          navigate(redirectPath);
+          setRedirectPath("/");
           sessionStorage.setItem("t", res.token);
         }
       })
