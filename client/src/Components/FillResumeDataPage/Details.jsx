@@ -30,45 +30,49 @@ export default function Details() {
   const {setImage, image, oldData} = useContext(GlobalContext);
   const [activeStep, setActiveStep] = useState(0);
 
-  const isStepOptional = (step) => {
-    return step === 1;
-  };
-
   function saveStates(){
     switch (activeStep) {
       case 0:
-        sessionStorage.setItem(activeStep, JSON.stringify(pDetails));
+        if(pDetails.name===""||pDetails.email===""||pDetails.phone===""||pDetails.address===""){
+          alert("please fill out required fields!");
+          return false;
+        }
+        if(!pDetails.selectedImage){
+          alert("please upload image.");
+          return false;
+        }
         break;
       case 1:
-        sessionStorage.setItem(activeStep, JSON.stringify(eduDetails));
+        if(eduDetails.length === 0){
+          alert("add atleast 1 eduction!");
+          return false;
+        }
         break;
-      case 2:
-        sessionStorage.setItem(activeStep, JSON.stringify(expDetails));
-        break;
-      case 3:
-        sessionStorage.setItem(activeStep, JSON.stringify(proDetails));
-        break;
+      case 2:break;
+      case 3: break;
       case 4:
-        sessionStorage.setItem(activeStep, JSON.stringify(snaDetails));
+        if(snaDetails.techSkills.length < 2 || snaDetails.proSkills.length < 2 || snaDetails.achievements.length < 2){
+          alert("add atleast 2 each");
+          return false;
+        }
         break;
       default:
         alert("something get wrong");
     }
-    makeData();
+    return true;
   }
   const handleNext = () => {
-    saveStates();
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if(saveStates()){
+      makeData();
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
   };
 
   const handleBack = () => {
-    saveStates();
+    makeData();
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleReset = () => {
-    setActiveStep(0);
-  };
   const [pDetails, setPDetails] = useState({
     name: (oldData)?oldData.name:"",
     email: (oldData)?oldData.email:"",
@@ -105,14 +109,14 @@ export default function Details() {
     return resumeData;
   }
   const handleSubmit = () => {
-    saveStates();
+    if(!saveStates()){
+      return 0;
+    }
     let resumeData = makeData();
 
     let reqData = new FormData();
-    reqData.append("file", pDetails.selectedImage)
+    reqData.append("file", pDetails.selectedImage);
     reqData.append("data", JSON.stringify(resumeData));
-
-    setImage(pDetails.selectedImage);
     
     addResumeData(reqData).then((res) => {
       if (res.error){
@@ -128,6 +132,7 @@ export default function Details() {
     if (pDetails.selectedImage || image) {
       let profile = URL.createObjectURL(pDetails.selectedImage || image);
       setPDetails({ ...pDetails, photo: profile });
+      setImage(pDetails.selectedImage);
       return () => {
         URL.revokeObjectURL(profile);
       };

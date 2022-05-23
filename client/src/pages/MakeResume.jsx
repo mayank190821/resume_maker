@@ -1,10 +1,8 @@
 import { useEffect, forwardRef, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import {GlobalContext} from "../context";
 
 const MakeResume = forwardRef(({ data }, resumeRef) => {
-  const navigate = useNavigate();
   const {image} = useContext(GlobalContext);
 
   const [persistData, setPersistData] = useState();
@@ -13,19 +11,18 @@ const MakeResume = forwardRef(({ data }, resumeRef) => {
     let imageURL;
     if (!data) {
       let storageData = JSON.parse(sessionStorage.getItem("data"));
-      if (!storageData) {
-        navigate("/editData");
-      }
-      setPersistData(storageData);
-      if(image){
-        imageURL = URL.createObjectURL(image);
-        setProfile(imageURL);
+      if (storageData) {
+        setPersistData(storageData);
+        if(image){
+          imageURL = URL.createObjectURL(image);
+          setProfile(imageURL);
+        }
       }
     } else setPersistData(data);
     return (() => {
       URL.revokeObjectURL(imageURL);
     })
-  }, []);
+  }, [image]);
   if (persistData) {
     return (
         <ResumePaper ref={resumeRef}>

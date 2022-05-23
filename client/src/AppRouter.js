@@ -5,7 +5,6 @@ import { Dialog } from "@mui/material";
 import { GlobalContext } from "./context.js";
 import LandingPage from "../src/Components/LandingPage/landingPage.jsx";
 import Signup from "./pages/signup";
-import MakeResume from "./pages/MakeResume";
 import PrivateRouter from "./pages/privateRouter";
 import DetailsPage from "./Components/FillResumeDataPage/DetailsPage";
 
@@ -21,7 +20,6 @@ function AppRouter() {
       >
         <Routes>
           <Route path="/editData" element={<PrivateRouter path="/editData" setRedirectPath={setRedirectPath} element={<DetailsPage/>} setOpen={setOpen}/>}/>
-          <Route path="/makeResume" element={<PrivateRouter path="/makeResume" setRedirectPath={setRedirectPath} element={<MakeResume/>} setOpen={setOpen}/>}/>
           <Route path="/" element={<LandingPage />} />
         </Routes>
         <Dialog
