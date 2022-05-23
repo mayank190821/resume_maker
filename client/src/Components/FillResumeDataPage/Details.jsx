@@ -1,5 +1,6 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect, useContext} from "react";
+import ReactToPrint from "react-to-print";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -11,7 +12,8 @@ import ProDetails from "./ProjectDetails";
 import ExpDetails from "./ExpDetails";
 import Achievement from "./Achievement";
 import { addResumeData } from "./../../api/user.api";
-import {useNavigate} from "react-router-dom";
+import MakeResume from "./../../pages/MakeResume";
+import { GlobalContext } from "../../context";
 
 const steps = [
   "Personal",
@@ -22,7 +24,10 @@ const steps = [
 ];
 
 export default function Details() {
-  const navigate = useNavigate();
+  const printRef = useRef();
+  const resumeRef = useRef();
+
+  const {setImage, image, oldData} = useContext(GlobalContext);
   const [activeStep, setActiveStep] = useState(0);
 
   const isStepOptional = (step) => {
@@ -49,6 +54,7 @@ export default function Details() {
       default:
         alert("something get wrong");
     }
+    makeData();
   }
   const handleNext = () => {
     saveStates();
@@ -64,27 +70,26 @@ export default function Details() {
     setActiveStep(0);
   };
   const [pDetails, setPDetails] = useState({
-    name: "",
-    email: "",
-    address: "",
-    phone: "",
-    github: "",
-    leetcode: "",
-    portfolio: ""
+    name: (oldData)?oldData.name:"",
+    email: (oldData)?oldData.email:"",
+    address: (oldData)?oldData.address:"",
+    phone: (oldData)?oldData.phone:"",
+    github: (oldData)?oldData.links.github:"",
+    leetcode: (oldData)?oldData.links.leetcode:"",
+    portfolio: (oldData)?oldData.links.portfolio:"",
   });
-  const [eduDetails, setEduDetails] = useState([]);
-  const [expDetails, setExpDetails] = useState([]);
-  const [proDetails, setProDetails] = useState([]);
-  const [snaDetails, setSnaDetails] = useState({techSkills: [], proSkills: [], achievements: []});
+  const [eduDetails, setEduDetails] = useState((oldData)?oldData.education:[]);
+  const [expDetails, setExpDetails] = useState((oldData)?oldData.experience:[]);
+  const [proDetails, setProDetails] = useState((oldData)?oldData.projects:[]);
+  const [snaDetails, setSnaDetails] = useState({techSkills: (oldData)?oldData.techSkills:[], proSkills: (oldData)?oldData.proSkills:[], achievements: (oldData)?oldData.certificates:[]});
 
-  const handleSubmit = () => {
-    saveStates();
+  function makeData(){
     let resumeData= {
       name: pDetails.name,
       email: pDetails.email,
       address: pDetails.address,
       phone: pDetails.phone,
-      links: [],
+      links: {},
       education: eduDetails,
       experience: expDetails,
       projects: proDetails,
@@ -93,28 +98,38 @@ export default function Details() {
       certificates: snaDetails.achievements,
     };
 
-    if(pDetails.github !== "") resumeData.links.push(pDetails.github);
-    if(pDetails.leetcode !== "") resumeData.links.push(pDetails.leetcode);
-    if(pDetails.portfolio !== "") resumeData.links.push(pDetails.portfolio);
+    if(pDetails.github !== "") resumeData.links["github"] = pDetails.github;
+    if(pDetails.leetcode !== "") resumeData.links["leetcode"] = pDetails.leetcode;
+    if(pDetails.portfolio !== "") resumeData.links["portfolio"] = pDetails.portfolio;
+    sessionStorage.setItem("data", JSON.stringify(resumeData));
+    return resumeData;
+  }
+  const handleSubmit = () => {
+    saveStates();
+    let resumeData = makeData();
 
     let reqData = new FormData();
     reqData.append("file", pDetails.selectedImage)
     reqData.append("data", JSON.stringify(resumeData));
+
+    setImage(pDetails.selectedImage);
+    
     addResumeData(reqData).then((res) => {
       if (res.error){
-        alert(res.error);
-      }
-      else{
-        navigate("/makeResume");
+        if(window.confirm("Unable to save data on database, do you want to continue without save?")){
+            printRef.current.handleClick();
+        }
+      }else{
+        printRef.current.handleClick();
       }
     })
   };
   useEffect(() => {
-    if (pDetails.selectedImage) {
-      const image = URL.createObjectURL(pDetails.selectedImage);
-      setPDetails({ ...pDetails, photo: image });
+    if (pDetails.selectedImage || image) {
+      let profile = URL.createObjectURL(pDetails.selectedImage || image);
+      setPDetails({ ...pDetails, photo: profile });
       return () => {
-        URL.revokeObjectURL(image);
+        URL.revokeObjectURL(profile);
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -132,11 +147,6 @@ export default function Details() {
         {steps.map((label, index) => {
           const stepProps = {};
           const labelProps = {};
-          // if (isStepOptional(index)) {
-          //   labelProps.optional = (
-          //     <Typography variant="caption">Optional</Typography>
-          //   );
-          // }
 
           return (
             <Step key={label} {...stepProps}>
@@ -173,6 +183,13 @@ export default function Details() {
         >
           {activeStep === steps.length - 1 ? "Finish" : "Next"}
         </Button>
+        
+        <ReactToPrint
+            trigger={()=><React.Fragment/>}
+            content={()=>resumeRef.current}
+            ref={printRef}
+          />
+          <div style={{display:"none"}}><MakeResume ref={resumeRef}/></div>
       </Box>
     </Box>
   );

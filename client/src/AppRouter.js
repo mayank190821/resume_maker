@@ -2,7 +2,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Login from "./pages/login";
 import { useState } from "react";
 import { Dialog } from "@mui/material";
-import { OpenLoginContext } from "./context.js";
+import { GlobalContext } from "./context.js";
 import LandingPage from "../src/Components/LandingPage/landingPage.jsx";
 import Signup from "./pages/signup";
 import MakeResume from "./pages/MakeResume";
@@ -12,11 +12,12 @@ import DetailsPage from "./Components/FillResumeDataPage/DetailsPage";
 function AppRouter() {
   const [open, setOpen] = useState(false);
   const [redirectPath, setRedirectPath] = useState("/");
+  const [image, setImage] = useState();
   const [loginToggle, setLoginToggle] = useState(true);
   return (
     <BrowserRouter>
-      <OpenLoginContext.Provider
-        value={{ openLogin: open, setOpenLogin: setOpen, setRedirectPath : setRedirectPath, redirectPath: redirectPath}}
+      <GlobalContext.Provider
+        value={{ openLogin: open, setOpenLogin: setOpen, setRedirectPath : setRedirectPath, redirectPath: redirectPath, image: image,setImage: setImage, oldData:JSON.parse(sessionStorage.getItem("data"))}}
       >
         <Routes>
           <Route path="/editData" element={<PrivateRouter path="/editData" setRedirectPath={setRedirectPath} element={<DetailsPage/>} setOpen={setOpen}/>}/>
@@ -36,7 +37,7 @@ function AppRouter() {
             <Signup setOpen={setOpen} redirectPath={redirectPath} setRedirectPath={setRedirectPath} setLoginToggle={setLoginToggle} />
           )}
         </Dialog>
-      </OpenLoginContext.Provider>
+      </GlobalContext.Provider>
     </BrowserRouter>
   );
 }

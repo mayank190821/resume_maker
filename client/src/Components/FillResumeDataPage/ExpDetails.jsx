@@ -37,8 +37,8 @@ function ExpDetails({ expDetails, setExpDetails }) {
     f.checkValidity();
     if (f.reportValidity()) {
       let curExperience = exp
-      curExperience.startDate = curExperience.startMonth+" "+curExperience.startYear
-      curExperience.endDate = curExperience.endMonth+" "+curExperience.endYear
+      curExperience.startDate = curExperience.startMonth.substring(0,3)+" "+curExperience.startYear
+      curExperience.endDate = curExperience.endMonth.substring(0,3)+" "+curExperience.endYear
       delete curExperience.startMonth;
       delete curExperience.startYear;
       delete curExperience.endMonth;

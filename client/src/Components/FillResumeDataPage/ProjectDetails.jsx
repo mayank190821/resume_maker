@@ -37,8 +37,8 @@ function ProDetails({ proDetails, setProDetails }) {
     f.checkValidity();
     if (f.reportValidity()) {
       let curProject = pro
-      curProject.startDate = curProject.startMonth+" "+curProject.startYear
-      curProject.endDate = curProject.endMonth+" "+curProject.endYear
+      curProject.startDate = curProject.startMonth.substring(0,3)+" "+curProject.startYear
+      curProject.endDate = curProject.endMonth.substring(0,3)+" "+curProject.endYear
       delete curProject.startMonth;
       delete curProject.startYear;
       delete curProject.endMonth;

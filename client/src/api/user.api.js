@@ -8,7 +8,7 @@ const addResumeData = async (reqData) => {
       }).then(async (data) => {
           return await data.json();
       }).catch(() => {
-          return {err: "unable to add data!"}
+          return {error: "unable to add data!"}
       })
 }
 

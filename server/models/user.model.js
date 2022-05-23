@@ -18,7 +18,11 @@ const user = new mongoose.Schema({
       data: Buffer,
       contentType: String,
     },
-    links: [String],
+    links: {
+      github: String,
+      leetcode: String,
+      portfolio: String
+    },
     education: [
       {
         degree: String,

@@ -38,8 +38,8 @@ function EduDetails({ eduDetails, setEduDetails }) {
     f.checkValidity();
     if (f.reportValidity()) {
       let curEducation = edu
-      curEducation.startDate = curEducation.startMonth+" "+curEducation.startYear
-      curEducation.endDate = curEducation.endMonth+" "+curEducation.endYear
+      curEducation.startDate = curEducation.startMonth.substring(0,3)+" "+curEducation.startYear
+      curEducation.endDate = curEducation.endMonth.substring(0,3)+" "+curEducation.endYear
       delete curEducation.startMonth;
       delete curEducation.startYear;
       delete curEducation.endMonth;
