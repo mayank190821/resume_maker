@@ -50,7 +50,8 @@ export default function LoginPage({ setOpen, setLoginToggle, setRedirectPath, re
           setOpen(false);
           navigate(redirectPath);
           setRedirectPath("/");
-          sessionStorage.setItem("t", res.token);
+          if(res.token)
+            sessionStorage.setItem("t", res.token);
         }
       })
       .catch((err) => {

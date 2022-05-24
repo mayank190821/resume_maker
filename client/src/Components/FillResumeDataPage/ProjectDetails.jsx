@@ -5,6 +5,7 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 function ProDetails({ proDetails, setProDetails }) {
+  const [edit, setEdit] = useState(false);
   const handleChange = (field) => (e) => {
     e.preventDefault();
     setPro({ ...pro, [field]: e.target.value });
@@ -30,21 +31,14 @@ function ProDetails({ proDetails, setProDetails }) {
   for (let i = 1950; i < curYear + 5; i++) {
     years.push(i);
   }
-  let extEle = [];
   const handleAddElement = (e) => {
     e.preventDefault();
     const f = document.getElementById("form");
     f.checkValidity();
     if (f.reportValidity()) {
-      let curProject = pro
-      curProject.startDate = curProject.startMonth.substring(0,3)+" "+curProject.startYear
-      curProject.endDate = curProject.endMonth.substring(0,3)+" "+curProject.endYear
-      delete curProject.startMonth;
-      delete curProject.startYear;
-      delete curProject.endMonth;
-      delete curProject.endYear;
 
-      setProDetails([...proDetails, curProject]);
+      setProDetails([...proDetails, pro]);
+      setEdit(false);
       setPro({
         name: "",
         description:"",
@@ -56,35 +50,33 @@ function ProDetails({ proDetails, setProDetails }) {
     }
   }
 
-  function handleEdit(e) {
-    let temp = proDetails;
-    let val = e.target.name;
-    let newTemp = []
+  const handleEdit = (indx) => {
+    let temp=proDetails;
+    let newTemp = [];
+    if(edit){
+      temp = [...temp, pro];
+    }
+    setEdit(true);
     for (let i = 0; i < temp.length; i++) {
-      if (temp[i].name === val) {
-        continue;
+      if(i !== indx) {
+        newTemp.push(temp[i]);
       }
-      newTemp.push(temp[i])
+      else{
+        setPro(temp[i]);
+      }
     }
     setProDetails(newTemp);
-    for (let i = 0; i < temp.length; i++) {
-      if (val === temp[i].name) {
-        setPro(temp[i])
-        break;
-      }
-    }
   }
-  function handleDelete(e) {
-    let temp = proDetails
-    let newTemp = []
-    let val = e.target.name
+  function handleDelete(indx) {
+    let temp=proDetails;
+    let newTemp = [];
+    
     for (let i = 0; i < temp.length; i++) {
-      if (temp[i].name === val) {
-        continue;
+      if(i !== indx) {
+        newTemp.push(temp[i]);
       }
-      newTemp.push(temp[i])
     }
-    setProDetails(newTemp);
+    setProDetails(newTemp); 
   }
   return (
     <Stack direction="row" spacing={5} style={{ display: "flex", justifyContent: "space-between", height: "85%" }}>
@@ -233,9 +225,9 @@ function ProDetails({ proDetails, setProDetails }) {
       </FormContainer >
       <ExtraElements>
         <div className="extraElements">
-          {proDetails.map((val) => (
+          {proDetails.map((val, indx) => (
 
-            <div className='ee-e'>
+            <div className='ee-e' key={val.degree+indx}>
               <span style={{ color: "grey" }}>{val.name}</span>
               <div>
                 <Button
@@ -243,14 +235,14 @@ function ProDetails({ proDetails, setProDetails }) {
                   size="small"
                   name={val.name}
                   style={{ color: "#006370", background: "white" }}
-                  onClick={handleEdit}
+                  onClick={() => handleEdit(indx)}
                 ><EditRoundedIcon sx={{ pointerEvents: "none" }} /></Button>
                 <Button
                   variant="contained"
                   size="small"
                   name={val.name}
                   style={{ color: "red", background: "white", zIndex: 900 }}
-                  onClick={handleDelete}
+                  onClick={() => handleDelete(indx)}
                 ><DeleteOutlineRoundedIcon sx={{ pointerEvents: "none" }} /></Button>
               </div>
             </div>

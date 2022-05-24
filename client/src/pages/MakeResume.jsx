@@ -3,14 +3,14 @@ import styled from "styled-components";
 import {GlobalContext} from "../context";
 
 const MakeResume = forwardRef(({ data }, resumeRef) => {
-  const {image} = useContext(GlobalContext);
+  const {image, oldData} = useContext(GlobalContext);
 
   const [persistData, setPersistData] = useState();
   const [profile, setProfile] = useState();
   useEffect(() => {
     let imageURL;
     if (!data) {
-      let storageData = JSON.parse(sessionStorage.getItem("data"));
+      let storageData = oldData;
       if (storageData) {
         setPersistData(storageData);
         if(image){
@@ -22,7 +22,7 @@ const MakeResume = forwardRef(({ data }, resumeRef) => {
     return (() => {
       URL.revokeObjectURL(imageURL);
     })
-  }, [image]);
+  }, [image, oldData]);
   if (persistData) {
     return (
         <ResumePaper ref={resumeRef}>

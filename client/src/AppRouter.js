@@ -12,11 +12,12 @@ function AppRouter() {
   const [open, setOpen] = useState(false);
   const [redirectPath, setRedirectPath] = useState("/");
   const [image, setImage] = useState();
+  const [oldData, setOldData] = useState(JSON.parse(sessionStorage.getItem("formData")));
   const [loginToggle, setLoginToggle] = useState(true);
   return (
     <BrowserRouter>
       <GlobalContext.Provider
-        value={{ openLogin: open, setOpenLogin: setOpen, setRedirectPath : setRedirectPath, redirectPath: redirectPath, image: image,setImage: setImage, oldData:JSON.parse(sessionStorage.getItem("data"))}}
+        value={{ openLogin: open, setOpenLogin: setOpen, setRedirectPath : setRedirectPath, redirectPath: redirectPath, image: image,setImage: setImage, oldData:oldData, setOldData: setOldData}}
       >
         <Routes>
           <Route path="/editData" element={<PrivateRouter path="/editData" setRedirectPath={setRedirectPath} element={<DetailsPage/>} setOpen={setOpen}/>}/>

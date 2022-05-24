@@ -65,7 +65,8 @@ export default function Signup({ setOpen, setLoginToggle, setRedirectPath, redir
                             setOpen(false);
                             navigate(redirectPath);
                             setRedirectPath("/");
-                            sessionStorage.setItem("t", res.token);
+                            if (res.token)
+                                sessionStorage.setItem("t", res.token);
                         }
                     }).catch(err => {
                         alert(err.message);

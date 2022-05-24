@@ -5,6 +5,7 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 function EduDetails({ eduDetails, setEduDetails }) {
+  const [edit, setEdit] = useState(false);
   const handleChange = (field) => (e) => {
     e.preventDefault();
     setEdu({ ...edu, [field]: e.target.value });
@@ -31,21 +32,14 @@ function EduDetails({ eduDetails, setEduDetails }) {
   for (let i = 1950; i < curYear + 5; i++) {
     years.push(i);
   }
-  let extEle = [];
   const handleAddElement = (e) => {
     e.preventDefault();
     const f = document.getElementById("form");
     f.checkValidity();
     if (f.reportValidity()) {
-      let curEducation = edu
-      curEducation.startDate = curEducation.startMonth.substring(0,3)+" "+curEducation.startYear
-      curEducation.endDate = curEducation.endMonth.substring(0,3)+" "+curEducation.endYear
-      delete curEducation.startMonth;
-      delete curEducation.startYear;
-      delete curEducation.endMonth;
-      delete curEducation.endYear;
 
-      setEduDetails([...eduDetails, curEducation]);
+      setEduDetails([...eduDetails, edu]);
+      setEdit(false);
       setEdu({
         degree: "",
         organisation: "",
@@ -58,36 +52,33 @@ function EduDetails({ eduDetails, setEduDetails }) {
     }
   }
 
-  function handleEdit(e){
+  const handleEdit = (indx) => {
     let temp=eduDetails;
-    let val = e.target.name;
-    let newTemp = []
-    // let val = e.target.name
+    let newTemp = [];
+    if(edit){
+      temp = [...temp, edu];
+    }
+    setEdit(true);
     for (let i = 0; i < temp.length; i++) {
-      if (temp[i].degree === val) {
-        continue;
+      if(i !== indx) {
+        newTemp.push(temp[i]);
       }
-      newTemp.push(temp[i])
+      else{
+        setEdu(temp[i]);
+      }
     }
     setEduDetails(newTemp);
-    for(let i=0;i<temp.length;i++){
-      if(val === temp[i].degree){
-        setEdu(temp[i])
-        break;
-      }
-    }
   }
-  function handleDelete(e) {
-    let temp = eduDetails
-    let newTemp = []
-    let val = e.target.name
+  function handleDelete(indx) {
+    let temp=eduDetails;
+    let newTemp = [];
+    
     for (let i = 0; i < temp.length; i++) {
-      if (temp[i].degree === val) {
-        continue;
+      if(i !== indx) {
+        newTemp.push(temp[i]);
       }
-      newTemp.push(temp[i])
     }
-    setEduDetails(newTemp);
+    setEduDetails(newTemp); 
   }
   return (
     <Stack direction="row" spacing={5} style={{ height: "85%", display: "flex", justifyContent: "space-between" }}>
@@ -250,9 +241,9 @@ function EduDetails({ eduDetails, setEduDetails }) {
       </FormContainer >
       <ExtraElements>
         <div className="extraElements">
-          {eduDetails.map((val) => (
+          {eduDetails.map((val, indx) => (
 
-            <div className='ee-e'>
+            <div className='ee-e' key={val.degree+indx}>
               <span style={{ color: "grey" }}>{val.degree}</span>
               <div>
                 <Button
@@ -260,14 +251,14 @@ function EduDetails({ eduDetails, setEduDetails }) {
                   size="small"
                   name={val.degree}
                   style={{ color: "#006370", background: "white" }}
-                  onClick={handleEdit}
+                  onClick={() => handleEdit(indx)}
                 ><EditRoundedIcon sx={{pointerEvents:"none"}}/></Button>
                 <Button
                   variant="contained"
                   size="small"
                   name={val.degree}
                   style={{ color: "red", background: "white", zIndex: 900 }}
-                  onClick={handleDelete}
+                  onClick={() => handleDelete(indx)}
                 ><DeleteOutlineRoundedIcon sx={{ pointerEvents: "none" }} /></Button>
               </div>
             </div>

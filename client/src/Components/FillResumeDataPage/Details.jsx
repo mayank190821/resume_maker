@@ -27,7 +27,7 @@ export default function Details() {
   const printRef = useRef();
   const resumeRef = useRef();
 
-  const {setImage, image, oldData} = useContext(GlobalContext);
+  const {setImage, image, oldData, setOldData} = useContext(GlobalContext);
   const [activeStep, setActiveStep] = useState(0);
 
   function saveStates(){
@@ -63,16 +63,28 @@ export default function Details() {
   }
   const handleNext = () => {
     if(saveStates()){
-      makeData();
+      let curr = makeData();
+      sessionStorage.setItem("formData", JSON.stringify(curr));
+      setOldData(curr)
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
   };
 
   const handleBack = () => {
-    makeData();
+    let curr = makeData();
+    sessionStorage.setItem("formData", JSON.stringify(curr));
+    setOldData(curr);
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-
+  function joinDate(object){
+    for(let i = 0; i<object.length; i++){
+      object[i].startDate = object[i].startMonth.substring(0,3)+" "+object[i].startYear;
+      object[i].endDate = object[i].endMonth.substring(0,3)+" "+object[i].endYear;
+      const {startMonth, endMonth, startYear, endYear, ...curObject} = object[i];
+      object[i] = curObject;
+    }
+    return object;
+  }
   const [pDetails, setPDetails] = useState({
     name: (oldData)?oldData.name:"",
     email: (oldData)?oldData.email:"",
@@ -105,7 +117,6 @@ export default function Details() {
     if(pDetails.github !== "") resumeData.links["github"] = pDetails.github;
     if(pDetails.leetcode !== "") resumeData.links["leetcode"] = pDetails.leetcode;
     if(pDetails.portfolio !== "") resumeData.links["portfolio"] = pDetails.portfolio;
-    sessionStorage.setItem("data", JSON.stringify(resumeData));
     return resumeData;
   }
   const handleSubmit = () => {
@@ -113,6 +124,11 @@ export default function Details() {
       return 0;
     }
     let resumeData = makeData();
+    setOldData(resumeData);
+    resumeData["education"] = joinDate([...eduDetails]);
+    resumeData["experience"] = joinDate([...expDetails]);
+    resumeData["projects"] = joinDate([...proDetails]);
+    sessionStorage.setItem("data", JSON.stringify(resumeData));
 
     let reqData = new FormData();
     reqData.append("file", pDetails.selectedImage);

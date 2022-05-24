@@ -7,5 +7,6 @@ export const GlobalContext = createContext({
     setopenLogin: () => {},
     image: undefined,
     oldData: undefined,
+    setOldData: () => {},
     setImage: () => {}
 })
