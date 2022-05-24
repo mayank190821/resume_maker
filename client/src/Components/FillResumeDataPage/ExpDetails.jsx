@@ -5,6 +5,7 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 function ExpDetails({ expDetails, setExpDetails }) {
+  const[edit, setEdit] = useState(false);
   const handleChange = (field) => (e) => {
     e.preventDefault();
     setExp({ ...exp, [field]: e.target.value });
@@ -36,15 +37,9 @@ function ExpDetails({ expDetails, setExpDetails }) {
     const f = document.getElementById("form");
     f.checkValidity();
     if (f.reportValidity()) {
-      let curExperience = exp
-      curExperience.startDate = curExperience.startMonth+" "+curExperience.startYear
-      curExperience.endDate = curExperience.endMonth+" "+curExperience.endYear
-      delete curExperience.startMonth;
-      delete curExperience.startYear;
-      delete curExperience.endMonth;
-      delete curExperience.endYear;
 
-      setExpDetails([...expDetails, curExperience]);
+      setExpDetails([...expDetails, exp]);
+      setEdit(false);
       setExp({
         organisation: "",
         role: "",
@@ -57,35 +52,33 @@ function ExpDetails({ expDetails, setExpDetails }) {
     }
   }
 
-  function handleEdit(e) {
-    let temp = expDetails;
-    let val = e.target.name;
-    let newTemp = []
+  const handleEdit = (indx) => {
+    let temp=expDetails;
+    let newTemp = [];
+    if(edit){
+      temp = [...temp, exp];
+    }
+    setEdit(true);
     for (let i = 0; i < temp.length; i++) {
-      if (temp[i].organisation === val) {
-        continue;
+      if(i !== indx) {
+        newTemp.push(temp[i]);
       }
-      newTemp.push(temp[i])
+      else{
+        setExp(temp[i]);
+      }
     }
     setExpDetails(newTemp);
-    for (let i = 0; i < temp.length; i++) {
-      if (val === temp[i].organisation) {
-        setExp(temp[i])
-        break;
-      }
-    }
   }
-  function handleDelete(e) {
-    let temp = expDetails
-    let newTemp = []
-    let val = e.target.name
+  function handleDelete(indx) {
+    let temp=expDetails;
+    let newTemp = [];
+    
     for (let i = 0; i < temp.length; i++) {
-      if (temp[i].organisation === val) {
-        continue;
+      if(i !== indx) {
+        newTemp.push(temp[i]);
       }
-      newTemp.push(temp[i])
     }
-    setExpDetails(newTemp);
+    setExpDetails(newTemp); 
   }
   return (
     <Stack direction="row" spacing={5} style={{ display: "flex", height: "85%", justifyContent: "space-between" }}>
@@ -246,9 +239,9 @@ function ExpDetails({ expDetails, setExpDetails }) {
       </FormContainer >
       <ExtraElements>
         <div className="extraElements">
-          {expDetails.map((val) => (
+          {expDetails.map((val, indx) => (
 
-            <div className='ee-e'>
+            <div className='ee-e' key={val.degree+indx}>
               <span style={{ color: "grey" }}>{val.organisation}</span>
               <div>
                 <Button
@@ -256,14 +249,14 @@ function ExpDetails({ expDetails, setExpDetails }) {
                   size="small"
                   name={val.organisation}
                   style={{ color: "#006370", background: "white" }}
-                  onClick={handleEdit}
+                  onClick={() => handleEdit(indx)}
                 ><EditRoundedIcon sx={{ pointerEvents: "none" }} /></Button>
                 <Button
                   variant="contained"
                   size="small"
                   name={val.organisation}
                   style={{ color: "red", background: "white", zIndex: 900 }}
-                  onClick={handleDelete}
+                  onClick={() => handleDelete(indx)}
                 ><DeleteOutlineRoundedIcon sx={{ pointerEvents: "none" }} /></Button>
               </div>
             </div>

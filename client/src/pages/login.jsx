@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Box,
   Avatar,
@@ -18,8 +18,12 @@ import {
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+import { GlobalContext } from "../context";
 
-export default function LoginPage({ setOpen, setLoginToggle }) {
+export default function LoginPage({ setOpen, setLoginToggle, setRedirectPath, redirectPath }) {
+  const navigate = useNavigate();
+  const {setOldData} = useContext(GlobalContext);
   const [userData, setUserData] = useState({
     email: "",
     password: "",
@@ -45,7 +49,14 @@ export default function LoginPage({ setOpen, setLoginToggle }) {
           alert(res.error);
         } else {
           setOpen(false);
-          sessionStorage.setItem("t", res.token);
+          navigate(redirectPath);
+          setRedirectPath("/");
+          if(res.token)
+            sessionStorage.setItem("t", res.token);
+          if(res.userData){
+            sessionStorage.setItem("formData", JSON.stringify(res.userData.resumeData));
+            setOldData(res.userData.resumeData);
+          }
         }
       })
       .catch((err) => {

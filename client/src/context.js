@@ -1,6 +1,12 @@
 import {createContext} from "react";
 
-export const OpenLoginContext = createContext({
+export const GlobalContext = createContext({
     openLogin: false,
-    setopenLogin: () => {}
+    redirectPath: "/",
+    setRedirectPath: () => {},
+    setopenLogin: () => {},
+    image: undefined,
+    oldData: undefined,
+    setOldData: () => {},
+    setImage: () => {}
 })

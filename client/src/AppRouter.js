@@ -2,7 +2,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Login from "./pages/login";
 import { useState } from "react";
 import { Dialog } from "@mui/material";
-import { OpenLoginContext } from "./context.js";
+import { GlobalContext } from "./context.js";
 import LandingPage from "../src/Components/LandingPage/landingPage.jsx";
 import Signup from "./pages/signup";
 import PrivateRouter from "./pages/privateRouter";
@@ -10,14 +10,17 @@ import DetailsPage from "./Components/FillResumeDataPage/DetailsPage";
 
 function AppRouter() {
   const [open, setOpen] = useState(false);
+  const [redirectPath, setRedirectPath] = useState("/");
+  const [image, setImage] = useState();
+  const [oldData, setOldData] = useState(JSON.parse(sessionStorage.getItem("formData")));
   const [loginToggle, setLoginToggle] = useState(true);
   return (
     <BrowserRouter>
-      <OpenLoginContext.Provider
-        value={{ openLogin: open, setOpenLogin: setOpen }}
+      <GlobalContext.Provider
+        value={{ openLogin: open, setOpenLogin: setOpen, setRedirectPath : setRedirectPath, redirectPath: redirectPath, image: image,setImage: setImage, oldData:oldData, setOldData: setOldData}}
       >
         <Routes>
-          <Route path="/editData" element={<PrivateRouter element={<DetailsPage/>} setOpen={setOpen}/>}/>
+          <Route path="/editData" element={<PrivateRouter path="/editData" setRedirectPath={setRedirectPath} element={<DetailsPage/>} setOpen={setOpen}/>}/>
           <Route path="/" element={<LandingPage />} />
         </Routes>
         <Dialog
@@ -28,12 +31,12 @@ function AppRouter() {
           }}
         >
           {loginToggle ? (
-            <Login setOpen={setOpen} setLoginToggle={setLoginToggle} />
+            <Login setOpen={setOpen} redirectPath={redirectPath} setRedirectPath={setRedirectPath} setLoginToggle={setLoginToggle} />
           ) : (
-            <Signup setOpen={setOpen} setLoginToggle={setLoginToggle} />
+            <Signup setOpen={setOpen} redirectPath={redirectPath} setRedirectPath={setRedirectPath} setLoginToggle={setLoginToggle} />
           )}
         </Dialog>
-      </OpenLoginContext.Provider>
+      </GlobalContext.Provider>
     </BrowserRouter>
   );
 }
