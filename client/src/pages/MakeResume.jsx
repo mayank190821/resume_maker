@@ -1,9 +1,9 @@
-import { useEffect, forwardRef, useState, useContext } from "react";
+import React, { useEffect, forwardRef, useState, useContext } from "react";
 import styled from "styled-components";
-import {GlobalContext} from "../context";
+import { GlobalContext } from "../context";
 
 const MakeResume = forwardRef(({ data }, resumeRef) => {
-  const {oldData} = useContext(GlobalContext);
+  const { oldData } = useContext(GlobalContext);
 
   const [persistData, setPersistData] = useState();
   const [profile, setProfile] = useState();
@@ -12,126 +12,134 @@ const MakeResume = forwardRef(({ data }, resumeRef) => {
       let storageData = oldData;
       if (storageData) {
         setPersistData(storageData);
-        if(storageData.imageSrc){
+        if (storageData.imageSrc) {
           setProfile(storageData.imageSrc);
         }
       }
     } else setPersistData(data);
   }, [oldData]);
-  if (persistData) {
+  if (persistData && persistData.name) {
     return (
-        <ResumePaper ref={resumeRef}>
-          <InfoGroup style={{ minHeight: "120px" }}>
-            <Heading1>{persistData.name.toUpperCase()}</Heading1>
-            <Heading3>{persistData.address}</Heading3>
-            <Heading3>
-              <List>
-                <li style={{ display: "inline-block" }}>
-                  <a
-                    style={{
-                      textDecoration: "none",
-                      fontWeight: "600",
-                      color: "#3586d6",
-                    }}
-                    href={`mailto:${persistData.email}`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {persistData.email}
-                  </a>
-                </li>
-                <li style={{ display: "inline-block" }}>
-                  +91 {persistData.phone}
-                </li>
-              </List>
-            </Heading3>
-            {persistData.links.github ? (
-              <Heading3>
-                <li>
-                  Github:
-                  <a
-                    style={{
-                      textDecoration: "none",
-                      fontWeight: "600",
-                      color: "#3586d6",
-                    }}
-                    href={persistData.links.github}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {persistData.links.github}
-                  </a>
-                </li>
-              </Heading3>
-            ) : (
-              <span />
-            )}
-            {persistData.links.leetcode ? (
-              <Heading3>
-                <li>
-                  Leetcode:
-                  <a
-                    style={{
-                      textDecoration: "none",
-                      fontWeight: "600",
-                      color: "#3586d6",
-                    }}
-                    href={persistData.links.leetcode}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {persistData.links.leetcode}
-                  </a>
-                </li>
-              </Heading3>
-            ) : (
-              <span />
-            )}
-            {persistData.links.portfolio ? (
-              <Heading3>
-                <li>
-                  Portfolio:
-                  <a
-                    style={{
-                      textDecoration: "none",
-                      fontWeight: "600",
-                      color: "#3586d6",
-                    }}
-                    href={persistData.links.portfolio}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {persistData.links.portfolio}
-                  </a>
-                </li>
-              </Heading3>
-            ) : (
-              <span />
-            )}
+      <ResumePaper ref={resumeRef}>
+        <InfoGroup style={{ minHeight: "120px" }}>
+          <Heading1>{persistData.name.toUpperCase()}</Heading1>
+          <Heading3>{persistData.address}</Heading3>
+          <Heading3>
+            <List>
+              <li style={{ display: "inline-block" }}>
+                <a
+                  style={{
+                    textDecoration: "none",
+                    fontWeight: "600",
+                    color: "#3586d6",
+                  }}
+                  href={`mailto:${persistData.email}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {persistData.email}
+                </a>
+              </li>
+              <li style={{ display: "inline-block" }}>
+                +91 {persistData.phone}
+              </li>
+            </List>
+          </Heading3>
+          {persistData.links ? (
+            <React.Fragment>
+              {persistData.links.github ? (
+                <Heading3>
+                  <li>
+                    Github:
+                    <a
+                      style={{
+                        textDecoration: "none",
+                        fontWeight: "600",
+                        color: "#3586d6",
+                      }}
+                      href={persistData.links.github}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {persistData.links.github}
+                    </a>
+                  </li>
+                </Heading3>
+              ) : (
+                <span />
+              )}
+              {persistData.links.leetcode ? (
+                <Heading3>
+                  <li>
+                    LinkedIn:
+                    <a
+                      style={{
+                        textDecoration: "none",
+                        fontWeight: "600",
+                        color: "#3586d6",
+                      }}
+                      href={persistData.links.leetcode}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {persistData.links.leetcode}
+                    </a>
+                  </li>
+                </Heading3>
+              ) : (
+                <span />
+              )}
+              {persistData.links.portfolio ? (
+                <Heading3>
+                  <li>
+                    Portfolio:
+                    <a
+                      style={{
+                        textDecoration: "none",
+                        fontWeight: "600",
+                        color: "#3586d6",
+                      }}
+                      href={persistData.links.portfolio}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {persistData.links.portfolio}
+                    </a>
+                  </li>
+                </Heading3>
+              ) : (
+                <span />
+              )}
+            </React.Fragment>
+          ) : (
+            <React.Fragment />
+          )}
 
-            <Profile>
-              <div style={{
-                  border: "3px solid #3586d6",
-                  borderRadius: "6px",
-                  width: "110px",
-                  height: "110px",
-                  marginTop: "30px",
-                }}>
-                <img
-                  src={profile}
-                  alt="img not found"
-                  style={{width: "110px",
-                  height: "110px",borderRadius: "6px",}}
-                />
-              </div>
-            </Profile>
-          </InfoGroup>
-          {(persistData.education.length !== 0)?(<InfoGroup>
+          <Profile>
+            <div
+              style={{
+                border: "3px solid #3586d6",
+                borderRadius: "6px",
+                width: "110px",
+                height: "110px",
+                marginTop: "30px",
+              }}
+            >
+              <img
+                src={profile}
+                alt="img not found"
+                style={{ width: "110px", height: "110px", borderRadius: "6px" }}
+              />
+            </div>
+          </Profile>
+        </InfoGroup>
+        {persistData.education.length !== 0 ? (
+          <InfoGroup>
             <Heading2>EDUCATION</Heading2>
             {persistData.education.map((elem, indx) => {
               return (
                 <div
-                key={elem+indx}
+                  key={elem + indx}
                   style={{
                     width: "100%",
                     margin: "3px 0px 4px 0px",
@@ -143,133 +151,139 @@ const MakeResume = forwardRef(({ data }, resumeRef) => {
                     <strong>{elem.degree}</strong>, {elem.organisation},
                     {elem.city}
                   </ContentHead>
-                  <ContentHead>{elem.startDate} - {elem.endDate}</ContentHead>
+                  <ContentHead>
+                    {elem.startDate} - {elem.endDate}
+                  </ContentHead>
                 </div>
               );
-            })};
-          </InfoGroup>):<span/>}
-          {persistData.experience.length !== 0 ? (
-            <InfoGroup>
-              <Heading2>EXPERIENCE</Heading2>
-              {persistData.experience.map((elem, indx) => {
-                return (
-                  <div
-                  key={elem+indx}
-                    style={{
-                      width: "100%",
-                      margin: "0px 0px 10px 0px",
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <MultiContent>
-                      <strong>{elem.organisation} </strong>
-                      <em>{elem.role}</em>
-                      <p style={{ textAlign: "left" }}>{elem.description}</p>
-                    </MultiContent>
-                    <ContentHead>
-                      {elem.startDate} – {elem.endDate}
-                    </ContentHead>
-                  </div>
-                );
-              })}
-            </InfoGroup>
-          ) : (
-            <span />
-          )}
-          {persistData.projects.length !== 0 ? (
-            <InfoGroup>
-              <Heading2>PROJECTS</Heading2>
-              {persistData.projects.map((elem, indx) => {
-                return (
-                  <div
-                    key={elem.name + indx}
-                    style={{
-                      width: "100%",
-                      margin: "0px 0px 10px 0px",
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <MultiContent>
-                      <strong>{elem.name} </strong>
-                      <em>College mini project</em>
-                      <p style={{ textAlign: "left" }}>{elem.description}</p>
-                    </MultiContent>
-                    <ContentHead>
-                      {elem.startDate} – {elem.endDate}
-                    </ContentHead>
-                  </div>
-                );
-              })}
-            </InfoGroup>
-          ) : (
-            <span />
-          )}
+            })}
+            ;
+          </InfoGroup>
+        ) : (
+          <span />
+        )}
+        {persistData.experience.length !== 0 ? (
           <InfoGroup>
-            <Heading2>SKILLS</Heading2>
-            <SkillContainer>
-              <SkillGroup className="technical">
-                <ContentHead className="head">
-                  <strong>Technical</strong>
-                </ContentHead>
-                <ul
+            <Heading2>EXPERIENCE</Heading2>
+            {persistData.experience.map((elem, indx) => {
+              return (
+                <div
+                  key={elem + indx}
                   style={{
-                    padding: "0px 15px",
-                    display: "flex",
-                    marginTop: "2px",
-                    flexWrap: "wrap",
                     width: "100%",
+                    margin: "0px 0px 10px 0px",
+                    display: "flex",
+                    justifyContent: "space-between",
                   }}
                 >
-                  {persistData.techSkills.map((elem, indx) => {
-                    return (
-                      <li
-                        key={indx + elem}
-                        style={{ margin: "0px", minWidth: "50%" }}
-                      >
-                        <ContentHead>{elem}</ContentHead>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </SkillGroup>
-              <SkillGroup className="pro">
-                <ContentHead className="head">
-                  <strong>Professional</strong>
-                </ContentHead>
-                <ul style={{ padding: "0px 15px", marginTop: "2px" }}>
-                  {persistData.proSkills.map((elem, indx) => {
-                    return (
-                      <li key={indx + elem}>
-                        <ContentHead>{elem}</ContentHead>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </SkillGroup>
-            </SkillContainer>
+                  <MultiContent>
+                    <strong>{elem.organisation} </strong>
+                    <em>{elem.role}</em>
+                    <p style={{ textAlign: "left" }}>{elem.description}</p>
+                  </MultiContent>
+                  <ContentHead>
+                    {elem.startDate} – {elem.endDate}
+                  </ContentHead>
+                </div>
+              );
+            })}
           </InfoGroup>
+        ) : (
+          <span />
+        )}
+        {persistData.projects.length !== 0 ? (
           <InfoGroup>
-            <Heading2>CERTIFICATES</Heading2>
-            <ul style={{ padding: "0px 15px" }}>
-              {persistData.certificates.map((elem, indx) => {
-                return (
-                  <li key={indx + elem}>
-                    <ContentHead>{elem}</ContentHead>
-                  </li>
-                );
-              })}
-            </ul>
+            <Heading2>PROJECTS</Heading2>
+            {persistData.projects.map((elem, indx) => {
+              return (
+                <div
+                  key={elem.name + indx}
+                  style={{
+                    width: "100%",
+                    margin: "0px 0px 10px 0px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <MultiContent>
+                    <strong>{elem.name} </strong>
+                    <em>College mini project</em>
+                    <p style={{ textAlign: "left" }}>{elem.description}</p>
+                  </MultiContent>
+                  <ContentHead>
+                    {elem.startDate} – {elem.endDate}
+                  </ContentHead>
+                </div>
+              );
+            })}
           </InfoGroup>
-          <InfoGroup>
-            <Heading2>DECLARATION</Heading2>
-            <ContentHead>
-              I hereby declare that all the above mentioned information is true
-              and correct to the best of my knowledge.
-            </ContentHead>
-          </InfoGroup>
-        </ResumePaper>
+        ) : (
+          <span />
+        )}
+        <InfoGroup>
+          <Heading2>SKILLS</Heading2>
+          <SkillContainer>
+            <SkillGroup className="technical">
+              <ContentHead className="head">
+                <strong>Technical</strong>
+              </ContentHead>
+              <ul
+                style={{
+                  padding: "0px 15px",
+                  display: "flex",
+                  marginTop: "2px",
+                  flexWrap: "wrap",
+                  width: "100%",
+                }}
+              >
+                {persistData.techSkills.map((elem, indx) => {
+                  return (
+                    <li
+                      key={indx + elem}
+                      style={{ margin: "0px", minWidth: "50%" }}
+                    >
+                      <ContentHead>{elem}</ContentHead>
+                    </li>
+                  );
+                })}
+              </ul>
+            </SkillGroup>
+            <SkillGroup className="pro">
+              <ContentHead className="head">
+                <strong>Professional</strong>
+              </ContentHead>
+              <ul style={{ padding: "0px 15px", marginTop: "2px" }}>
+                {persistData.proSkills.map((elem, indx) => {
+                  return (
+                    <li key={indx + elem}>
+                      <ContentHead>{elem}</ContentHead>
+                    </li>
+                  );
+                })}
+              </ul>
+            </SkillGroup>
+          </SkillContainer>
+        </InfoGroup>
+        <InfoGroup>
+          <Heading2>CERTIFICATES</Heading2>
+          <ul style={{ padding: "0px 15px" }}>
+            {persistData.certificates.map((elem, indx) => {
+              return (
+                <li key={indx + elem}>
+                  <ContentHead>{elem}</ContentHead>
+                </li>
+              );
+            })}
+          </ul>
+        </InfoGroup>
+        <InfoGroup>
+          <Heading2>DECLARATION</Heading2>
+          <ContentHead>
+            I hereby declare that all the above mentioned information is true
+            and correct to the best of my knowledge.
+          </ContentHead>
+        </InfoGroup>
+      </ResumePaper>
     );
   } else {
     return <div></div>;

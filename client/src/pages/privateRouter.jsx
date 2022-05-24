@@ -6,7 +6,7 @@ function privateRouter({setOpen, element, path, setRedirectPath}){
         setOpen(true); 
         setRedirectPath(`${path}`);
     }
-    return auth ? element:<Navigate to={-1}/>
+    return auth ? element:<Navigate to="/"/>
 }
 
 export default privateRouter;

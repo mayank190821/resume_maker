@@ -103,9 +103,9 @@ export default function Details() {
     address: (oldData)?oldData.address:"",
     imageSrc: (oldData && oldData.imageSrc)?oldData.imageSrc: "",
     phone: (oldData)?oldData.phone:"",
-    github: (oldData)?oldData.links.github:"",
-    leetcode: (oldData)?oldData.links.leetcode:"",
-    portfolio: (oldData)?oldData.links.portfolio:"",
+    github: (oldData && oldData.links)?oldData.links.github:"",
+    leetcode: (oldData && oldData.links)?oldData.links.leetcode:"",
+    portfolio: (oldData && oldData.links)?oldData.links.portfolio:"",
   });
   const [eduDetails, setEduDetails] = useState((oldData)?oldData.education:[]);
   const [expDetails, setExpDetails] = useState((oldData)?oldData.experience:[]);
@@ -119,7 +119,7 @@ export default function Details() {
       address: pDetails.address,
       phone: pDetails.phone,
       links: {},
-      profile:oldData.profile,
+      profile:(oldData.profile)?oldData.profile: undefined,
       imageSrc: pDetails.imageSrc,
       education: eduDetails,
       experience: expDetails,
@@ -172,11 +172,13 @@ export default function Details() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pDetails.selectedImage]);
   useEffect(() => {
-    const base64String = btoa(String.fromCharCode(...new Uint8Array(oldData.profile.data.data)));
-    let image = `data:${oldData.profile.contentType};base64,${base64String}`;
-    if(pDetails.imageSrc === "" || !pDetails.imageSrc)
+    if(oldData.profile){
+      const base64String = btoa(String.fromCharCode(...new Uint8Array(oldData.profile.data.data)));
+      let image = `data:${oldData.profile.contentType};base64,${base64String}`;
+      if(pDetails.imageSrc === "" || !pDetails.imageSrc)
       setPDetails({...pDetails, imageSrc: image});
-  }, [oldData.name]);
+    }
+  }, [oldData]);
 
   const ENUM_STATES = {
     0: <PersonalDetails pDetails={pDetails} setPDetails={setPDetails} />,
