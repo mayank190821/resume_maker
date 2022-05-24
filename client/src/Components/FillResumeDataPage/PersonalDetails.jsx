@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import styledC from "styled-components";
 import EditIcon from "@mui/icons-material/EditOutlined";
 import { TextField, Stack, Badge, Avatar } from "@mui/material";
@@ -63,7 +63,7 @@ function PersonalDetails({ pDetails, setPDetails }) {
                 height: "70px",
               }}
             >
-            {pDetails.imageSrc}</Avatar>
+            </Avatar>
           )}
 
           <input
@@ -140,10 +140,10 @@ function PersonalDetails({ pDetails, setPDetails }) {
           />
           <TextField
             variant="outlined"
-            id="Leetcode"
-            label="Leetcode Link"
+            id="Linkedin"
+            label="LinkedIn Link"
             name="leetcode"
-            autoComplete="leetcode"
+            autoComplete="linkedin"
             size="small"
             value={pDetails.leetcode}
             onChange={handleChange("leetcode")}

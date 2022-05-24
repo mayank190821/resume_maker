@@ -31,7 +31,7 @@ const loginController = async (req, res) => {
             res.status(403).json({error: "Incorrect username or password!"});
         }
     }).catch((err) => {
-        res.status(404).json({error: err.message});
+        res.status(404).json({error: "User not found"});
     });
 }
 
