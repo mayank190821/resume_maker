@@ -9,7 +9,7 @@ const SignupAuth = async (data)=>{
     }).then((res)=>{
         return res.status
     }).catch((err)=>{
-        return err;
+        return {error: err};
     })
 }
 
@@ -24,7 +24,7 @@ const LoginAuth=async (data)=>{
     }).then(async (res)=>{
         return await res.json();
     }).catch((err)=>{
-        return err;
+        return {error:err};
     })
 }
 

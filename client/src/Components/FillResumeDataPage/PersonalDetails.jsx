@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styledC from "styled-components";
 import EditIcon from "@mui/icons-material/EditOutlined";
 import { TextField, Stack, Badge, Avatar } from "@mui/material";
@@ -6,7 +6,6 @@ import { TextField, Stack, Badge, Avatar } from "@mui/material";
 function PersonalDetails({ pDetails, setPDetails }) {
 
   const inputFile = useRef();
-  
   const handleChange = (field) => (e) => {
     setPDetails({ ...pDetails, [field]: e.target.value });
   };
@@ -14,7 +13,6 @@ function PersonalDetails({ pDetails, setPDetails }) {
     if (e.target.files && e.target.files.length !== 0)
       setPDetails({...pDetails, selectedImage: e.target.files[0]});
   };
-  
   return (
     <FormContainer>
       <form action="">
@@ -44,9 +42,10 @@ function PersonalDetails({ pDetails, setPDetails }) {
             horizontal: "right",
           }}
         >
-          {pDetails.photo ? (
+          {(pDetails.imageSrc) ? (
             <img
-              src={pDetails.photo}
+              src={pDetails.imageSrc}
+              key={pDetails.imageSrc}
               style={{
                 margin: "10px",
                 width: "70px",
@@ -63,7 +62,8 @@ function PersonalDetails({ pDetails, setPDetails }) {
                 width: "70px",
                 height: "70px",
               }}
-            />
+            >
+            {pDetails.imageSrc}</Avatar>
           )}
 
           <input

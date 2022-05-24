@@ -3,26 +3,21 @@ import styled from "styled-components";
 import {GlobalContext} from "../context";
 
 const MakeResume = forwardRef(({ data }, resumeRef) => {
-  const {image, oldData} = useContext(GlobalContext);
+  const {oldData} = useContext(GlobalContext);
 
   const [persistData, setPersistData] = useState();
   const [profile, setProfile] = useState();
   useEffect(() => {
-    let imageURL;
     if (!data) {
       let storageData = oldData;
       if (storageData) {
         setPersistData(storageData);
-        if(image){
-          imageURL = URL.createObjectURL(image);
-          setProfile(imageURL);
+        if(storageData.imageSrc){
+          setProfile(storageData.imageSrc);
         }
       }
     } else setPersistData(data);
-    return (() => {
-      URL.revokeObjectURL(imageURL);
-    })
-  }, [image, oldData]);
+  }, [oldData]);
   if (persistData) {
     return (
         <ResumePaper ref={resumeRef}>
@@ -159,6 +154,7 @@ const MakeResume = forwardRef(({ data }, resumeRef) => {
               {persistData.experience.map((elem, indx) => {
                 return (
                   <div
+                  key={elem+indx}
                     style={{
                       width: "100%",
                       margin: "0px 0px 10px 0px",

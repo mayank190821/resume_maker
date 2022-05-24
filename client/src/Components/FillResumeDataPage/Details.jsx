@@ -27,7 +27,7 @@ export default function Details() {
   const printRef = useRef();
   const resumeRef = useRef();
 
-  const {setImage, image, oldData, setOldData} = useContext(GlobalContext);
+  const {oldData, setOldData} = useContext(GlobalContext);
   const [activeStep, setActiveStep] = useState(0);
 
   function saveStates(){
@@ -37,7 +37,7 @@ export default function Details() {
           alert("please fill out required fields!");
           return false;
         }
-        if(!pDetails.selectedImage){
+        if(!pDetails.imageSrc){
           alert("please upload image.");
           return false;
         }
@@ -78,10 +78,22 @@ export default function Details() {
   };
   function joinDate(object){
     for(let i = 0; i<object.length; i++){
-      object[i].startDate = object[i].startMonth.substring(0,3)+" "+object[i].startYear;
-      object[i].endDate = object[i].endMonth.substring(0,3)+" "+object[i].endYear;
-      const {startMonth, endMonth, startYear, endYear, ...curObject} = object[i];
-      object[i] = curObject;
+      try{
+        const {startMonth, startYear, endMonth, endYear} = object[i];
+        object[i].startDate = startMonth.substring(0,3)+" "+startYear;
+        object[i].endDate = endMonth.substring(0,3)+" "+endYear;
+      }catch(err){
+        const [startMonth, startYear] = object[i].startDate.split(" ");
+        const [endMonth, endYear] = object[i].endDate.split(" ");
+        object[i].startDate = startMonth.substring(0,3)+" "+startYear;
+        object[i].endDate = endMonth.substring(0,3)+" "+endYear;
+      }
+      try{
+        const {startMonth, endMonth, startYear, endYear, ...curObject} = object[i];
+        object[i] = curObject;
+      }catch(err){
+        continue;
+      }
     }
     return object;
   }
@@ -89,6 +101,7 @@ export default function Details() {
     name: (oldData)?oldData.name:"",
     email: (oldData)?oldData.email:"",
     address: (oldData)?oldData.address:"",
+    imageSrc: (oldData && oldData.imageSrc)?oldData.imageSrc: "",
     phone: (oldData)?oldData.phone:"",
     github: (oldData)?oldData.links.github:"",
     leetcode: (oldData)?oldData.links.leetcode:"",
@@ -106,6 +119,8 @@ export default function Details() {
       address: pDetails.address,
       phone: pDetails.phone,
       links: {},
+      profile:oldData.profile,
+      imageSrc: pDetails.imageSrc,
       education: eduDetails,
       experience: expDetails,
       projects: proDetails,
@@ -125,6 +140,7 @@ export default function Details() {
     }
     let resumeData = makeData();
     setOldData(resumeData);
+
     resumeData["education"] = joinDate([...eduDetails]);
     resumeData["experience"] = joinDate([...expDetails]);
     resumeData["projects"] = joinDate([...proDetails]);
@@ -145,16 +161,23 @@ export default function Details() {
     })
   };
   useEffect(() => {
-    if (pDetails.selectedImage || image) {
-      let profile = URL.createObjectURL(pDetails.selectedImage || image);
-      setPDetails({ ...pDetails, photo: profile });
-      setImage(pDetails.selectedImage);
-      return () => {
-        URL.revokeObjectURL(profile);
-      };
+    if (pDetails.selectedImage) {
+      let dataURL = pDetails.selectedImage;
+      let reader = new FileReader();
+      reader.readAsDataURL(dataURL);
+      reader.onload = () =>{
+        setPDetails({ ...pDetails, imageSrc: reader.result });
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pDetails.selectedImage]);
+  useEffect(() => {
+    const base64String = btoa(String.fromCharCode(...new Uint8Array(oldData.profile.data.data)));
+    let image = `data:${oldData.profile.contentType};base64,${base64String}`;
+    if(pDetails.imageSrc === "" || !pDetails.imageSrc)
+      setPDetails({...pDetails, imageSrc: image});
+  }, [oldData.name]);
+
   const ENUM_STATES = {
     0: <PersonalDetails pDetails={pDetails} setPDetails={setPDetails} />,
     1: <EduDetails eduDetails={eduDetails} setEduDetails={setEduDetails} />,

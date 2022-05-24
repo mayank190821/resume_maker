@@ -11,7 +11,7 @@ import {
     OutlinedInput,
     InputLabel,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
     LockOutlined,
     Close,
@@ -20,10 +20,12 @@ import {
 } from "@mui/icons-material";
 import {LoginAuth, SignupAuth} from "../api/auth.api";
 import { useNavigate } from 'react-router-dom';
+import {GlobalContext} from "./../context";
 
 
 export default function Signup({ setOpen, setLoginToggle, setRedirectPath, redirectPath }) {
     const navigate = useNavigate();
+    const {setOldData} = useContext(GlobalContext);
     const [userData, setUserData] = useState({
         name: "",
         email: "",
@@ -67,6 +69,10 @@ export default function Signup({ setOpen, setLoginToggle, setRedirectPath, redir
                             setRedirectPath("/");
                             if (res.token)
                                 sessionStorage.setItem("t", res.token);
+                            if(res.userData){
+                                sessionStorage.setItem("formData", JSON.stringify(res.userData.resumeData));
+                                setOldData(res.userData.resumeData);
+                            }
                         }
                     }).catch(err => {
                         alert(err.message);
