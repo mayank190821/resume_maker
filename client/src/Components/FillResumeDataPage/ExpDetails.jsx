@@ -4,6 +4,7 @@ import styledC from "styled-components";
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
+import { exactProp } from '@mui/utils';
 function ExpDetails({ expDetails, setExpDetails }) {
   const[edit, setEdit] = useState(false);
   const handleChange = (field) => (e) => {
@@ -81,7 +82,7 @@ function ExpDetails({ expDetails, setExpDetails }) {
     setExpDetails(newTemp); 
   }
   return (
-    <Stack direction="row" spacing={5} style={{ display: "flex", height: "85%", justifyContent: "space-between" }}>
+    <Stack direction="row" spacing={5} style={{ display: "flex", height: "85%", justifyContent: `${(expDetails && expDetails.length > 0)?"space-between":"center"}` }}>
       <FormContainer action="" id="form">
           <h1 style={{ color: "#006370", textAlign: "center", marginTop: "0px" }}>Experience Details</h1>
           <Stack spacing={2} >
@@ -237,7 +238,7 @@ function ExpDetails({ expDetails, setExpDetails }) {
             </Button>
           </Stack>
       </FormContainer >
-      <ExtraElements>
+      {(!expDetails || expDetails.length === 0)?<span/>:(<ExtraElements>
         <div className="extraElements">
           {expDetails.map((val, indx) => (
 
@@ -262,7 +263,7 @@ function ExpDetails({ expDetails, setExpDetails }) {
             </div>
           ))}
         </div>
-      </ExtraElements>
+      </ExtraElements>)}
     </Stack>
   )
 }

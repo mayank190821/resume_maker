@@ -79,7 +79,7 @@ function ProDetails({ proDetails, setProDetails }) {
     setProDetails(newTemp); 
   }
   return (
-    <Stack direction="row" spacing={5} style={{ display: "flex", justifyContent: "space-between", height: "85%" }}>
+    <Stack direction="row" spacing={5} style={{ display: "flex", justifyContent: `${(proDetails && proDetails.length > 0)?"space-between":"center"}`, height: "85%" }}>
       <FormContainer action="" id="form">
           <h1 style={{ color: "#006370", textAlign: "center", margin: "0px" }}>Project Details</h1>
           <Stack spacing={2} >
@@ -223,7 +223,7 @@ function ProDetails({ proDetails, setProDetails }) {
             </Button>
           </Stack>
       </FormContainer >
-      <ExtraElements>
+      {(!proDetails || proDetails.length === 0)?<span/>:(<ExtraElements>
         <div className="extraElements">
           {proDetails.map((val, indx) => (
 
@@ -248,7 +248,7 @@ function ProDetails({ proDetails, setProDetails }) {
             </div>
           ))}
         </div>
-      </ExtraElements>
+      </ExtraElements>)}
     </Stack>
   )
 }

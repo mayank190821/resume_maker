@@ -5,7 +5,6 @@
 /client/package-lock.json
 /client/build
 /node_modules
-/uploads
 /.pnp
 package-lock.json
 .pnp.js

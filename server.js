@@ -24,7 +24,7 @@ app.use("/user", isAuthenticated, Router);
 app.use("/auth", Router);
 
 
-app.listen(process.env.port || 2000, () => {
+app.listen(process.env.PORT || 2000, () => {
     console.log("server started...");
     app.get("*", (req, res) => {
         res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
