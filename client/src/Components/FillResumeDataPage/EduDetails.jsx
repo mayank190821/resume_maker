@@ -81,7 +81,7 @@ function EduDetails({ eduDetails, setEduDetails }) {
     setEduDetails(newTemp); 
   }
   return (
-    <Stack direction="row" spacing={5} style={{ height: "85%", display: "flex", justifyContent: "space-between" }}>
+    <Stack direction="row" spacing={5} style={{ height: "85%", display: "flex", justifyContent: `${(eduDetails && eduDetails.length > 0)?"space-between":"center"}` }}>
       <FormContainer action="" id="form">
           <h1 style={{ color: "#006370", textAlign: "center", margin: "0px" }}>Educational Details</h1>
           <Stack spacing={2} >
@@ -239,7 +239,7 @@ function EduDetails({ eduDetails, setEduDetails }) {
             </Button>
           </Stack>
       </FormContainer >
-      <ExtraElements>
+      {(!eduDetails || eduDetails.length === 0)?<span/>:(<ExtraElements>
         <div className="extraElements">
           {eduDetails.map((val, indx) => (
 
@@ -264,7 +264,7 @@ function EduDetails({ eduDetails, setEduDetails }) {
             </div>
           ))}
         </div>
-      </ExtraElements>
+      </ExtraElements>)}
     </Stack>
   )
 }
