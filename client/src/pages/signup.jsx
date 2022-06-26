@@ -145,7 +145,6 @@ export default function Signup({ setOpen, setLoginToggle, setRedirectPath, redir
                         onChange={handleChange("email")}
                         value={userData.email}
                         autoComplete="email"
-                        autoFocus
                     />
                 </Stack>
                 <FormControl variant="outlined" margin="normal" required fullWidth>
