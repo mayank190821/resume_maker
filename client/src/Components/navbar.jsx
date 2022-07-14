@@ -37,7 +37,6 @@ export default function NavBar() {
               style={{ backgroundColor: "#006370", color: "white" }}
               variant="h5"
             >
-              {" "}
               LogIn{" "}
             </Button>
           ) : (
